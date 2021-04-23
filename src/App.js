@@ -1,5 +1,5 @@
-import './App.css';
-import NavigationHeader from './components/NavigationHeader'
+import "./App.css";
+import NavigationHeader from "./components/NavigationHeader";
 
 function App() {
   return (
