@@ -1,10 +1,18 @@
+import useFirestore from "../../hooks/useFirestore";
+
 function Tracking() {
-    return (
-      <div className="tracking">
-        <h1>Tracking</h1>
-      </div>
-    );
-  }
-  
-  export default Tracking;
-  
+  const { songs } = useFirestore("songs");
+  console.log(songs);
+  return (
+    <div className="tracking">
+      {songs &&
+        songs.map((song) => (
+          <audio controls key={song.id}>
+            <source src={song.url}></source>
+          </audio>
+        ))}
+    </div>
+  );
+}
+
+export default Tracking;

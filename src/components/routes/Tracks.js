@@ -1,8 +1,8 @@
-import { app } from "../../firebase_storage";
-import { useState } from "react";
+import { app } from "../../firebase/firebase_storage";
+import { useState, useRef } from "react";
 
 function Tracks() {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState("Unfiled");
   const [progress, setProgress] = useState(0);
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
@@ -19,6 +19,7 @@ function Tracks() {
     }
     const storageRef = app.storage().ref();
     const fileRef = storageRef.child(`${value}/` + file.name);
+    const collRef = app.firestore().collection("songs");
     fileRef.put(file).on(
       "state_changed",
       (snapshot) => {
@@ -31,8 +32,10 @@ function Tracks() {
       },
       async () => {
         const url = await fileRef.getDownloadURL();
+        const folder = value;
+        collRef.add({ url, folder });
         setUrl(url);
-        console.log(url)
+        console.log(url);
       }
     );
   };
@@ -43,9 +46,6 @@ function Tracks() {
       <input type="text" onChange={makeFolder} />
       <input type="file" onChange={onChange} />
       <progress value={progress} max="100"></progress>
-      <audio controls>
-        <source src={url} type="audio/ogg"></source>
-      </audio>
     </div>
   );
 }
