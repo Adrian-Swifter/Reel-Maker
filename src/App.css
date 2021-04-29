@@ -87,3 +87,7 @@ li.list__item:last-child {
   max-width: 600px;
   margin: auto;
 }
+
+.tracking {
+  display: flex
+}
