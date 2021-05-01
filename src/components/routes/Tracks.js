@@ -55,7 +55,7 @@ function Tracks() {
         <div className="left__section">
           {songs &&
             songs.map((song) => (
-              <div className="folder">
+              <div className="folder" key={song.id}>
                 <div className="icon__holder">
                   <i className="material-icons mdc-button__icon" aria-hidden="true">
                     folder
