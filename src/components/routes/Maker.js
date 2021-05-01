@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Waveform from "../waveform/Waveform";
 import PlayList from "../waveform/PlayList";
 import useFirestore from "../../hooks/useFirestore";
@@ -21,8 +21,6 @@ const tracks1 = [
 function Maker() {
   const tracks = useFirestore("songs");
   const [selectedTrack, setSelectedTrack] = useState(tracks1[0]);
-  console.log(tracks)
-  
   
   return (
     <div className="maker">

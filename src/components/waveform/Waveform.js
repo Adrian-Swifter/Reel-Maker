@@ -14,7 +14,7 @@ const formWaveSurferOptions = ref => ({
   normalize: true,
   // Use the PeakCache to improve rendering speed of large waveforms.
   partialRender: true,
-  xhr: {mode: 'no-cors'}
+
 });
 
 export default function Waveform({ url }) {
