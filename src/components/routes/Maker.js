@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Waveform from "../waveform/Waveform";
 import PlayList from "../waveform/PlayList";
+import useFirestore from '../../hooks/useFirestore'
 
 
-const tracks = [
+const tracks1 = [
   {
     id: 0,
     title: "Brahms: St Anthony Chorale - Theme, Two Pianos Op.56b",
@@ -18,14 +19,17 @@ const tracks = [
   }
 ];
 
-function Maker() {
-  const [selectedTrack, setSelectedTrack] = useState(tracks[0]);
 
+
+function Maker() {
+  const tracks = useFirestore('songs')
+  
+  const [selectedTrack, setSelectedTrack] = useState(tracks1[0]);
   return (
     <div className="maker">
       <Waveform url={selectedTrack.url} />
       <PlayList
-        tracks={tracks}
+        tracks={tracks.songs}
         selectedTrack={selectedTrack}
         setSelectedTrack={setSelectedTrack}
       />

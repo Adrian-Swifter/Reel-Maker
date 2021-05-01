@@ -13,7 +13,8 @@ const formWaveSurferOptions = ref => ({
   // If true, normalize by the maximum peak instead of 1.0.
   normalize: true,
   // Use the PeakCache to improve rendering speed of large waveforms.
-  partialRender: true
+  partialRender: true,
+  xhr: {mode: 'no-cors'}
 });
 
 export default function Waveform({ url }) {
@@ -29,13 +30,13 @@ export default function Waveform({ url }) {
 
     const options = formWaveSurferOptions(waveformRef.current);
     wavesurfer.current = WaveSurfer.create(options);
-
+    console.log(url)
     wavesurfer.current.load(url);
 
     wavesurfer.current.on("ready", function() {
       // https://wavesurfer-js.org/docs/methods.html
-      // wavesurfer.current.play();
-      // setPlay(true);
+      //wavesurfer.current.play();
+      //setPlay(true);
 
       // make sure object stillavailable when file loaded
       if (wavesurfer.current) {

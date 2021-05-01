@@ -13,7 +13,7 @@ const PlayList = ({ tracks, selectedTrack, setSelectedTrack }) => {
           }
           onClick={() => setSelectedTrack(track)}
         >
-          {track.title}
+          {track.folder}
         </div>
       ))}
     </div>
