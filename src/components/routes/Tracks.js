@@ -1,4 +1,4 @@
-import { app } from "../../firebase/firebase_storage";
+import { app, timestamp } from "../../firebase/firebase_storage";
 import { useState } from "react";
 import useFirestore from "../../hooks/useFirestore";
 
@@ -6,7 +6,6 @@ function Tracks() {
   const { songs } = useFirestore("songs");
   const [value, setValue] = useState("Unfiled");
   const [progress, setProgress] = useState(0);
-  const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
   const [url, setUrl] = useState(null);
 
@@ -16,11 +15,9 @@ function Tracks() {
 
   const onChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setFile(file);
-    }
     const storageRef = app.storage().ref();
     const fileRef = storageRef.child(`${value}/` + file.name);
+    console.log(file, "file bruda");
     const collRef = app.firestore().collection("songs");
     fileRef.put(file).on(
       "state_changed",
@@ -29,13 +26,16 @@ function Tracks() {
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setProgress(percentage);
       },
-      (err) => {
-        setError(err);
+      (error) => {
+        setError(error);
       },
       async () => {
         const url = await fileRef.getDownloadURL();
         const folder = value;
-        collRef.add({ url, folder });
+        const trackName = file.name;
+        const fileSize = `${file.size / 1e6} MB`;
+        const createdAt = timestamp();
+        collRef.add({ url, folder, trackName, fileSize, createdAt });
         setUrl(url);
         console.log(url);
       }
@@ -43,8 +43,7 @@ function Tracks() {
   };
 
   return (
-    <div>
-      {" "}
+    <div className="container">
       <div className="tracks">
         <h1>Tracks</h1>
         <input type="text" onChange={makeFolder} />
@@ -57,7 +56,10 @@ function Tracks() {
             songs.map((song) => (
               <div className="folder" key={song.id}>
                 <div className="icon__holder">
-                  <i className="material-icons mdc-button__icon" aria-hidden="true">
+                  <i
+                    className="material-icons mdc-button__icon"
+                    aria-hidden="true"
+                  >
                     folder
                   </i>
                 </div>
@@ -80,13 +82,81 @@ function Tracks() {
               </div>
             ))}
         </div>
-        <div className="songs">
-          {songs &&
-            songs.map((song) => (
-              <audio controls key={song.id}>
-                <source src={song.url}></source>
-              </audio>
-            ))}
+        <div className="right__section">
+          <div className="track__search_and_kebab_container">
+            <div className="search__input_contaner">
+              <input
+                type="text"
+                id="trackSearchInput"
+                placeholder="Filter by name or tag"
+              />
+
+              <i
+                className="material-icons mdc-button__icon search__icon"
+                aria-hidden="true"
+              >
+                search
+              </i>
+            </div>
+            <div className="kebab__menu_container">
+              <i className="material-icons mdc-button__icon" aria-hidden="true">
+                more_vert
+              </i>
+            </div>
+          </div>
+
+          <div className="tracks__view_container">
+            {songs &&
+              songs.map((song) => (
+                <div className="track__wrapper">
+                  <div className="mdc-form-field">
+                    <div className="mdc-checkbox">
+                      <input
+                        type="checkbox"
+                        className="mdc-checkbox__native-control"
+                        id="checkbox-1"
+                      />
+                      <div className="mdc-checkbox__background">
+                        <svg
+                          className="mdc-checkbox__checkmark"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            className="mdc-checkbox__checkmark-path"
+                            fill="none"
+                            d="M1.73,12.91 8.1,19.28 22.79,4.59"
+                          />
+                        </svg>
+                        <div className="mdc-checkbox__mixedmark"></div>
+                      </div>
+                      <div className="mdc-checkbox__ripple"></div>
+                    </div>
+                    <div className="track">
+                      <div className="play__button">
+                        <i
+                          className="material-icons mdc-button__icon"
+                          aria-hidden="true"
+                        >
+                          play_circle_filled
+                        </i>
+                      </div>
+                      <div className="song">
+                        {song.trackName}{" "}
+                        <span class="track__duration">(1:24)</span>
+                      </div>
+                      <div className="settings">
+                        <i
+                          className="material-icons mdc-button__icon"
+                          aria-hidden="true"
+                        >
+                          settings
+                        </i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+          </div>
         </div>
       </div>
     </div>
