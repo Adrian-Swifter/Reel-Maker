@@ -1,6 +1,8 @@
 import { app, timestamp } from "../../firebase/firebase_storage";
 import { useState } from "react";
 import useFirestore from "../../hooks/useFirestore";
+import Button from "../../components/Button";
+import Modal from "../Modal";
 
 function Tracks() {
   const { songs } = useFirestore("songs");
@@ -44,11 +46,8 @@ function Tracks() {
 
   return (
     <div className="container">
-      <div className="tracks">
-        <h1>Tracks</h1>
-        <input type="text" onChange={makeFolder} />
-        <input type="file" onChange={onChange} />
-        <progress value={progress} max="100"></progress>
+      <div class="btn__container">
+        <Button buttonName="Upload Tracks" buttonIcon="file_upload" />
       </div>
       <div className="main__container">
         <div className="left__section">
@@ -108,7 +107,7 @@ function Tracks() {
           <div className="tracks__view_container">
             {songs &&
               songs.map((song) => (
-                <div className="track__wrapper">
+                <div className="track__wrapper" key={song.id}>
                   <div className="mdc-form-field">
                     <div className="mdc-checkbox">
                       <input
@@ -142,7 +141,7 @@ function Tracks() {
                       </div>
                       <div className="song">
                         {song.trackName}{" "}
-                        <span class="track__duration">(1:24)</span>
+                        <span className="track__duration">(1:24)</span>
                       </div>
                       <div className="settings">
                         <i
@@ -159,6 +158,7 @@ function Tracks() {
           </div>
         </div>
       </div>
+      <Modal progress={progress} onChange={onChange} />
     </div>
   );
 }

@@ -1,11 +1,11 @@
-function Button() {
+function Button({buttonName, buttonIcon}) {
   return (
-    <button class="mdc-button mdc-button--raised">
-      <span class="mdc-button__ripple"></span>
-      <i class="material-icons mdc-button__icon" aria-hidden="true">
-        create_new_folder
+    <button className="mdc-button mdc-button--raised">
+      <span className="mdc-button__ripple"></span>
+      <i className="material-icons mdc-button__icon" aria-hidden="true">
+        {buttonIcon}
       </i>
-      <span class="mdc-button__label">New Folder</span>
+      <span className="mdc-button__label">{buttonName}</span>
     </button>
   );
 }
