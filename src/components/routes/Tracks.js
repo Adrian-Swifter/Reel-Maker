@@ -158,7 +158,7 @@ function Tracks() {
           </div>
         </div>
       </div>
-      <Modal progress={progress} onChange={onChange} />
+      <Modal progress={progress} onChange={onChange} makeFolder={makeFolder}/>
     </div>
   );
 }

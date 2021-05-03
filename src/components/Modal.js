@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../components/Button";
 
-const Modal = ({ onChange, progress }) => {
+const Modal = ({ onChange, progress, makeFolder }) => {
   return (
     <div className="modal">
       <Button buttonName="New Folder" buttonIcon="create_new_folder" />
@@ -12,6 +12,7 @@ const Modal = ({ onChange, progress }) => {
           className="mdc-text-field__input"
           type="text"
           aria-labelledby="my-label-id"
+          onChange={makeFolder}
         />
         <span className="mdc-line-ripple"></span>
       </label>
