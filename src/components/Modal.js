@@ -18,7 +18,7 @@ const Modal = ({ onChange, progress, makeFolder }) => {
       </label>
 
       <div>
-        <input type="file" onChange={onChange} />
+        <input className="file-input" type="file" onChange={onChange} />
         <progress value={progress} max="100"></progress>
       </div>
     </div>
