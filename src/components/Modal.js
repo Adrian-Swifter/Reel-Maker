@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Button from "../components/Button";
 
 const Modal = ({ onChange, progress, makeFolder }) => {
-  const aslkfkldsh = "adsfsdfd"
   const [visibility, setVisibility] = useState(false);
   const handleVisibility = () => {
     setVisibility(!visibility);
