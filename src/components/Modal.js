@@ -7,7 +7,6 @@ const Modal = ({ onChange, progress, makeFolder, modalStyle }) => {
   const handleVisibility = () => {
     setVisibility(!visibility);
   };
-  console.log(modalStyle);
   return (
     <div className={`modal ${modalStyle ? "show" : ""}`}>
       <Button
