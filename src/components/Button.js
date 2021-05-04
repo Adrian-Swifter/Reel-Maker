@@ -1,6 +1,6 @@
-function Button({buttonName, buttonIcon, handleVisibility, visibility}) {
+function Button({buttonName, buttonIcon, handleVisibility, visibility, handleModal}) {
   return (
-    <button className="mdc-button mdc-button--raised" onClick={handleVisibility}>
+    <button className="mdc-button mdc-button--raised" onClick={buttonName == "Upload Tracks" ? handleModal : handleVisibility}>
       <span className="mdc-button__ripple"></span>
       <i className="material-icons mdc-button__icon" aria-hidden="true">
         {buttonIcon}
