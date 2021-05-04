@@ -1,5 +1,6 @@
 :root {
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 *,
@@ -246,6 +247,7 @@ li.list__item:last-child {
 .num__of_tracks_container {
   color: gray;
   font-size: 0.8rem;
+  text-align: left;
 }
 
 .kebab__menu_container {
@@ -531,4 +533,18 @@ li.list__item:last-child {
 
 .hide {
   display: none;
+}
+
+.modal {
+  position: absolute;
+  bottom: -100px;
+  transition: all 0.4s;
+  width: 100%;
+  left: 0;
+  background-color: #03dac5;
+  padding: 20px;
+}
+
+.show {
+  bottom: 0;
 }

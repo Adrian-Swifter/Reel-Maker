@@ -10,16 +10,20 @@ function Tracks() {
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState(null);
   const [url, setUrl] = useState(null);
-
+  const [modalStyle, setModalStyle] = useState(false);
   const makeFolder = (e) => {
     setValue(e.target.value);
+  };
+
+  const handleModal = () => {
+    setModalStyle(!modalStyle);
   };
 
   const onChange = (e) => {
     const file = e.target.files[0];
     const storageRef = app.storage().ref();
     const fileRef = storageRef.child(`${value}/` + file.name);
-    console.log(file, "file bruda");
+
     const collRef = app.firestore().collection("songs");
     fileRef.put(file).on(
       "state_changed",
@@ -39,7 +43,6 @@ function Tracks() {
         const createdAt = timestamp();
         collRef.add({ url, folder, trackName, fileSize, createdAt });
         setUrl(url);
-        console.log(url);
       }
     );
   };
@@ -47,7 +50,11 @@ function Tracks() {
   return (
     <div className="container">
       <div class="btn__container">
-        <Button buttonName="Upload Tracks" buttonIcon="file_upload" />
+        <Button
+          buttonName="Upload Tracks"
+          buttonIcon="file_upload"
+          handleModal={handleModal}
+        />
       </div>
       <div className="main__container">
         <div className="left__section">
@@ -158,7 +165,12 @@ function Tracks() {
           </div>
         </div>
       </div>
-      <Modal progress={progress} onChange={onChange} makeFolder={makeFolder}/>
+      <Modal
+        progress={progress}
+        onChange={onChange}
+        makeFolder={makeFolder}
+        modalStyle={modalStyle}
+      />
     </div>
   );
 }
