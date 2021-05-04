@@ -11,7 +11,7 @@ function Tracks() {
   const [error, setError] = useState(null);
   const [url, setUrl] = useState(null);
   const [modalStyle, setModalStyle] = useState(false);
-  const [bg, setBg] = useState(false)
+  const [bg, setBg] = useState(false);
 
   const makeFolder = (e) => {
     setValue(e.target.value);
@@ -22,9 +22,8 @@ function Tracks() {
   };
 
   const handleFolderClick = (folder, e) => {
-    //console.log(e.currentTarget.lastElementChild.firstElementChild.firstElementChild.innerText)
     setValue(folder);
-  }
+  };
 
   const onChange = (e) => {
     const file = e.target.files[0];
@@ -67,7 +66,11 @@ function Tracks() {
         <div className="left__section">
           {songs &&
             songs.map((song) => (
-              <div className={`folder`} key={song.id} onClick={(e) => handleFolderClick(song.folder, e)}>
+              <div
+                className={`folder`}
+                key={song.id}
+                onClick={(e) => handleFolderClick(song.folder, e)}
+              >
                 <div className="icon__holder">
                   <i
                     className="material-icons mdc-button__icon"

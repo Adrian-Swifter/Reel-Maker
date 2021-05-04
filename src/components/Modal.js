@@ -37,6 +37,7 @@ const Modal = ({ onChange, progress, makeFolder, modalStyle }) => {
         <input className="file-input" type="file" onChange={onChange} />
         <progress value={progress} max="100"></progress>
       </div>
+      <Button buttonName="Upload" buttonIcon="publish"/>
     </div>
   );
 };
