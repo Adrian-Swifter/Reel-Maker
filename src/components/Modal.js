@@ -1,11 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "../components/Button";
 
 const Modal = ({ onChange, progress, makeFolder }) => {
+  const aslkfkldsh = "adsfsdfd"
+  const [visibility, setVisibility] = useState(false);
+  const handleVisibility = () => {
+    setVisibility(!visibility);
+  };
   return (
     <div className="modal">
-      <Button buttonName="New Folder" buttonIcon="create_new_folder" />
-      <label className="mdc-text-field mdc-text-field--filled">
+      <Button
+        buttonName="New Folder"
+        buttonIcon="create_new_folder"
+        handleVisibility={handleVisibility}
+        visibility={visibility}
+      />
+      <br/>
+   
+      <label className={`mdc-text-field mdc-text-field--filled ${visibility ? "":"hide"}`}>
         <span classname="mdc-text-field__ripple"></span>
 
         <input
@@ -18,7 +30,7 @@ const Modal = ({ onChange, progress, makeFolder }) => {
       </label>
 
       <div>
-        <input type="file" onChange={onChange} />
+        <input className="file-input" type="file" onChange={onChange} />
         <progress value={progress} max="100"></progress>
       </div>
     </div>

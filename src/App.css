@@ -528,3 +528,7 @@ li.list__item:last-child {
   border-radius: 50%;
   margin-right: 10px;
 }
+
+.hide {
+  display: none;
+}
