@@ -6,6 +6,15 @@ import Modal from "../Modal";
 
 function Tracks() {
   const { songs } = useFirestore("songs");
+  const uniqueSongs = [];
+  let tempArr = [];
+  songs.forEach((song) => {
+    if (!tempArr.includes(song.folder)) {
+      tempArr.push(song.folder);
+      uniqueSongs.push(song);
+    }
+  });
+  
   const [value, setValue] = useState("Unfiled");
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState(null);
@@ -65,7 +74,7 @@ function Tracks() {
       <div className="main__container">
         <div className="left__section">
           {songs &&
-            songs.map((song) => (
+            uniqueSongs.map((song) => (
               <div
                 className={`folder`}
                 key={song.id}
@@ -157,7 +166,7 @@ function Tracks() {
                         </i>
                       </div>
                       <div className="song">
-                        {song.trackName}{" "}
+                        {song.trackName}
                         <span className="track__duration">(1:24)</span>
                       </div>
                       <div className="settings">
