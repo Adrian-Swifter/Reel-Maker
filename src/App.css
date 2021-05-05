@@ -83,7 +83,7 @@ li.list__item:last-child {
 }
 
 .tracking {
-  display: flex
+  display: flex;
 }
 
 /* WAVEFORM */
@@ -492,7 +492,8 @@ li.list__item:last-child {
   padding: 10px;
 }
 
-.maker__header ul, .maker__header ul li {
+.maker__header ul,
+.maker__header ul li {
   display: flex;
 }
 
@@ -537,7 +538,7 @@ li.list__item:last-child {
 
 .modal {
   position: absolute;
-  bottom: -100px;
+  bottom: -150px;
   transition: all 0.4s;
   width: 100%;
   left: 0;

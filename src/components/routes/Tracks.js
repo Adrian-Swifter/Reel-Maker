@@ -1,5 +1,5 @@
 import { app, timestamp } from "../../firebase/firebase_storage";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useFirestore from "../../hooks/useFirestore";
 import Button from "../../components/Button";
 import Modal from "../Modal";
@@ -14,13 +14,13 @@ function Tracks() {
       uniqueSongs.push(song);
     }
   });
-  
+
   const [value, setValue] = useState("Unfiled");
+  const [filtered, setFiltered] = useState([]);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState(null);
   const [url, setUrl] = useState(null);
   const [modalStyle, setModalStyle] = useState(false);
-  const [bg, setBg] = useState(false);
 
   const makeFolder = (e) => {
     setValue(e.target.value);
@@ -33,6 +33,10 @@ function Tracks() {
   const handleFolderClick = (folder, e) => {
     setValue(folder);
   };
+
+  useEffect(() => {
+    setFiltered(songs.filter((song) => song.folder === value));
+  }, [value]);
 
   const onChange = (e) => {
     const file = e.target.files[0];
@@ -132,7 +136,7 @@ function Tracks() {
 
           <div className="tracks__view_container">
             {songs &&
-              songs.map((song) => (
+              filtered.map((song) => (
                 <div className="track__wrapper" key={song.id}>
                   <div className="mdc-form-field">
                     <div className="mdc-checkbox">
