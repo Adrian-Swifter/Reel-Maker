@@ -8,7 +8,10 @@ function Tracks() {
   const { songs } = useFirestore("songs");
   const uniqueSongs = [];
   let tempArr = [];
-  songs.forEach((song) => {
+  let counts = {};
+  songs.forEach((song, index) => {
+    let tracksNum = song.folder;
+    counts[tracksNum] = counts[tracksNum] ? counts[tracksNum] + 1 : 1;
     if (!tempArr.includes(song.folder)) {
       tempArr.push(song.folder);
       uniqueSongs.push(song);
@@ -98,7 +101,10 @@ function Tracks() {
                   <div className="folder__text_container">
                     <h3 className="folder__title">{song.folder}</h3>
                     <div className="num__of_tracks_container">
-                      <span className="num__of_tracks">361</span> tracks
+                      <span className="num__of_tracks">
+                        {`${counts[song.folder]} `}
+                      </span>
+                      tracks
                     </div>
                   </div>
                   <div className="kebab__menu_container">
