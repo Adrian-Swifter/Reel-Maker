@@ -549,3 +549,7 @@ li.list__item:last-child {
 .show {
   bottom: 0;
 }
+
+.bg__on_click {
+  background-color: lightgray;
+}

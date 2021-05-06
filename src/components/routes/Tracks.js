@@ -21,6 +21,7 @@ function Tracks() {
   const [error, setError] = useState(null);
   const [url, setUrl] = useState(null);
   const [modalStyle, setModalStyle] = useState(false);
+  const [ind, setInd] = useState(0);
 
   const makeFolder = (e) => {
     setValue(e.target.value);
@@ -30,8 +31,9 @@ function Tracks() {
     setModalStyle(!modalStyle);
   };
 
-  const handleFolderClick = (folder, e) => {
+  const handleFolderClick = (folder, index, e) => {
     setValue(folder);
+    setInd(index);
   };
 
   useEffect(() => {
@@ -78,11 +80,11 @@ function Tracks() {
       <div className="main__container">
         <div className="left__section">
           {songs &&
-            uniqueSongs.map((song) => (
+            uniqueSongs.map((song, index) => (
               <div
-                className={`folder`}
+                className={`folder ${index === ind ? "bg__on_click" : ""}`}
                 key={song.id}
-                onClick={(e) => handleFolderClick(song.folder, e)}
+                onClick={(e) => handleFolderClick(song.folder, index, e)}
               >
                 <div className="icon__holder">
                   <i
