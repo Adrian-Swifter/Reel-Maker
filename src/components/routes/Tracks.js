@@ -25,6 +25,7 @@ function Tracks() {
   const [url, setUrl] = useState(null);
   const [modalStyle, setModalStyle] = useState(false);
   const [ind, setInd] = useState(0);
+  const [reelSongs, setReelSongs] = useState([]);
 
   const makeFolder = (e) => {
     setValue(e.target.value);
@@ -39,6 +40,14 @@ function Tracks() {
     setInd(index);
   };
 
+  const onCheckboxClick = (songId, songName) => {
+    if (!reelSongs.includes(songId)) {
+      setReelSongs([...reelSongs, songId]);
+    } else {
+      setReelSongs(reelSongs.filter((sid) => sid !== songId));
+    }
+  };
+  console.log(reelSongs);
   useEffect(() => {
     setFiltered(songs.filter((song) => song.folder === value));
   }, [value]);
@@ -152,6 +161,10 @@ function Tracks() {
                         type="checkbox"
                         className="mdc-checkbox__native-control"
                         id="checkbox-1"
+                        onChange={() =>
+                          onCheckboxClick(song.id)
+                        }
+                        defaultChecked={reelSongs.includes(song.id)}
                       />
                       <div className="mdc-checkbox__background">
                         <svg
