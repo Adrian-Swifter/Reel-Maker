@@ -40,7 +40,7 @@ function Tracks() {
     setInd(index);
   };
 
-  const onCheckboxClick = (songId, songName) => {
+  const onCheckboxClick = (songId) => {
     if (!reelSongs.includes(songId)) {
       setReelSongs([...reelSongs, songId]);
     } else {
@@ -48,6 +48,13 @@ function Tracks() {
     }
   };
   console.log(reelSongs);
+
+  const addToReels = () => {
+    app
+      .firestore()
+      .collection("reels")
+      .add({ ...[reelSongs] });
+  };
   useEffect(() => {
     setFiltered(songs.filter((song) => song.folder === value));
   }, [value]);
@@ -129,6 +136,7 @@ function Tracks() {
             ))}
         </div>
         <div className="right__section">
+          <button onClick={addToReels}>Choose Tracks</button>
           <div className="track__search_and_kebab_container">
             <div className="search__input_contaner">
               <input
@@ -161,9 +169,7 @@ function Tracks() {
                         type="checkbox"
                         className="mdc-checkbox__native-control"
                         id="checkbox-1"
-                        onChange={() =>
-                          onCheckboxClick(song.id)
-                        }
+                        onChange={() => onCheckboxClick(song.id)}
                         defaultChecked={reelSongs.includes(song.id)}
                       />
                       <div className="mdc-checkbox__background">

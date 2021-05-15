@@ -4,6 +4,7 @@ import Maker from "./routes/Maker";
 import Reels from "./routes/Reels";
 import Tracking from "./routes/Tracking";
 import Tracks from "./routes/Tracks";
+import { ReelContext } from "./ReelContext";
 
 export default function NavigationHeader() {
   return (
@@ -38,18 +39,20 @@ export default function NavigationHeader() {
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/tracks">
-            <Tracks />
-          </Route>
-          <Route path="/maker">
-            <Maker />
-          </Route>
-          <Route path="/reels">
-            <Reels />
-          </Route>
-          <Route path="/tracking">
-            <Tracking />
-          </Route>
+          <ReelContext.Provider>
+            <Route path="/tracks">
+              <Tracks />
+            </Route>
+            <Route path="/maker">
+              <Maker />
+            </Route>
+            <Route path="/reels">
+              <Reels />
+            </Route>
+            <Route path="/tracking">
+              <Tracking />
+            </Route>
+          </ReelContext.Provider>
         </Switch>
       </Router>
     </div>
