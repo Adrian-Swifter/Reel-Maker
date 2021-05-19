@@ -25,8 +25,12 @@ ul {
   padding: 0;
 }
 
-li {
+ul li {
   list-style: none;
+}
+
+ol li {
+  text-align: left;
 }
 
 .container {
@@ -552,4 +556,8 @@ li.list__item:last-child {
 
 .bg__on_click {
   background-color: lightgray;
+}
+
+.block {
+  display: block;
 }

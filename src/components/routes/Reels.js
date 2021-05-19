@@ -1,27 +1,16 @@
 import useFirestore from "../../hooks/useFirestore";
-import { useEffect } from "react";
 
 function Reels() {
   const reels = useFirestore("reels");
   const { songs } = useFirestore("songs");
+  let idArray = [];
+  songs.map((song) => {
+    idArray.push(song.id);
+  });
 
-  console.log(songs, reels);
-  // (function () {
-  //   var acc = document.getElementsByClassName("accordion");
-  //   var i;
-
-  //   for (i = 0; i < acc.length; i++) {
-  //     acc[i].addEventListener("click", function () {
-  //       this.classList.toggle("active");
-  //       var panel = this.nextElementSibling;
-  //       if (panel.style.display === "block") {
-  //         panel.style.display = "none";
-  //       } else {
-  //         panel.style.display = "block";
-  //       }
-  //     });
-  //   }
-  // })();
+  const openAccordion = (e) => {
+    e.currentTarget.nextElementSibling.classList.toggle("block");
+  };
 
   return (
     <main className="container reels__body">
@@ -46,9 +35,10 @@ function Reels() {
 
       <div className="main__container">
         <div className="left__section">
-          {reels && reels.songs.map((reel) => (
+          {reels &&
+            reels.songs.map((reel, index) => (
               <div key={reel.id}>
-                <div className="accordion">
+                <div className="accordion" onClick={(e) => openAccordion(e)}>
                   <div className="reel__name reel__page">
                     Moon Knight <span class="track__duration">(31:39)</span>
                   </div>
@@ -64,53 +54,20 @@ function Reels() {
                 <div className="panel">
                   <div className="track__list_container">
                     <ol>
-                      <li>
-                        Knight Kight{" "}
-                        <span className="track__duration">(02:07)</span>
-                      </li>
-                      <li>
-                        Knight Kight{" "}
-                        <span className="track__duration">(02:07)</span>
-                      </li>
-                      <li>
-                        Knight Kight{" "}
-                        <span className="track__duration">(02:07)</span>
-                      </li>
-                      <li>
-                        Knight Kight{" "}
-                        <span className="track__duration">(02:07)</span>
-                      </li>
-                      <li>
-                        Knight Kight{" "}
-                        <span className="track__duration">(02:07)</span>
-                      </li>
-                      <li>
-                        Knight Kight{" "}
-                        <span className="track__duration">(02:07)</span>
-                      </li>
-                      <li>
-                        Knight Kight{" "}
-                        <span className="track__duration">(02:07)</span>
-                      </li>
-                      <li>
-                        Knight Kight{" "}
-                        <span className="track__duration">(02:07)</span>
-                      </li>
-                      <li>
-                        Knight Kight{" "}
-                        <span className="track__duration">(02:07)</span>
-                      </li>
-                      <li>
-                        Knight Kight{" "}
-                        <span className="track__duration">(02:07)</span>
-                      </li>
+                      {songs
+                        .filter((song) =>
+                          reels.songs[index][0].includes(song.id)
+                        )
+                        .map((song) => (
+                          <li>
+                            {song.trackName}
+                            <span className="track__duration">(02:07)</span>
+                          </li>
+                        ))}
                     </ol>
                   </div>
                   <div className="btn__container">
-                    <button
-                      
-                      className="mdc-button mdc-button--raised"
-                    >
+                    <button className="mdc-button mdc-button--raised">
                       <span className="mdc-button__ripple"></span>
                       <span className="mdc-button__label">Preview</span>
                     </button>
