@@ -1,12 +1,9 @@
 import useFirestore from "../../hooks/useFirestore";
+import { Link } from "react-router-dom";
 
 function Reels() {
   const reels = useFirestore("reels");
   const { songs } = useFirestore("songs");
-  let idArray = [];
-  songs.map((song) => {
-    idArray.push(song.id);
-  });
 
   const openAccordion = (e) => {
     e.currentTarget.nextElementSibling.classList.toggle("block");
@@ -71,7 +68,16 @@ function Reels() {
                       <span className="mdc-button__ripple"></span>
                       <span className="mdc-button__label">Preview</span>
                     </button>
-
+                    <Link
+                      to={{
+                        pathname: "/reel",
+                        songs: songs.filter((song) =>
+                          reels.songs[index][0].includes(song.id)
+                        ),
+                      }}
+                    >
+                      Reel
+                    </Link>
                     <button className="mdc-button mdc-button--raised">
                       <span className="mdc-button__ripple"></span>
                       <span className="mdc-button__label">Add Share Link</span>

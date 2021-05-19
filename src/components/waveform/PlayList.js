@@ -3,7 +3,7 @@ import React from "react";
 const PlayList = ({ tracks, selectedTrack, setSelectedTrack }) => {
   return (
     <div className="playlist">
-      {tracks.map(track => (
+      {tracks.map((track) => (
         <div
           key={track.id}
           className={
@@ -13,7 +13,7 @@ const PlayList = ({ tracks, selectedTrack, setSelectedTrack }) => {
           }
           onClick={() => setSelectedTrack(track)}
         >
-          {track.folder}
+          {track.trackName}
         </div>
       ))}
     </div>
