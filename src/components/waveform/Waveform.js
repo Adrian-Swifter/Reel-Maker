@@ -32,7 +32,9 @@ export default function Waveform({ url }) {
     wavesurfer.current = WaveSurfer.create(options);
     console.log(url)
     wavesurfer.current.load(url);
-
+    wavesurfer.current.on('loading', function(X) {
+      UpdateLoadingFlag(X);
+    });
     wavesurfer.current.on("ready", function() {
       // https://wavesurfer-js.org/docs/methods.html
       //wavesurfer.current.play();
@@ -49,6 +51,19 @@ export default function Waveform({ url }) {
     // when component unmount
     return () => wavesurfer.current.destroy();
   }, [url]);
+
+  /* utiluty functions */
+
+const UpdateLoadingFlag = Percentage => {
+  if (document.getElementById("loading_flag")) {
+    document.getElementById("loading_flag").innerText = "Loading " + Percentage + "%";
+    if (Percentage >= 100) {
+      document.getElementById("loading_flag").style.display = "none";
+    } else {
+      document.getElementById("loading_flag").style.display = "block";
+    }
+  }
+}
 
   const handlePlayPause = () => {
     setPlay(!playing);
@@ -67,6 +82,7 @@ export default function Waveform({ url }) {
 
   return (
     <div>
+      <div id="loading_flag"></div>
       <div id="waveform" ref={waveformRef} />
       <div className="controls">
         <button className="playBtnWF" onClick={handlePlayPause}>{!playing ? "Play" : "Pause"}</button>
