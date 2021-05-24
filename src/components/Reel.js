@@ -11,7 +11,7 @@ const dummyTracks = [
   },
 ];
 
-function Maker() {
+function Reel() {
   const location = useLocation();
   const [selectedTrack, setSelectedTrack] = useState(dummyTracks[0]);
   useEffect(() => {
@@ -20,7 +20,7 @@ function Maker() {
 
   console.log();
   return (
-    <div className="maker">
+    <div className="reel">
       <Waveform url={selectedTrack.url} />
       <PlayList
         tracks={location.songs}
@@ -31,4 +31,4 @@ function Maker() {
   );
 }
 
-export default Maker;
+export default Reel;
