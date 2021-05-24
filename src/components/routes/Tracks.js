@@ -9,7 +9,7 @@ function Tracks() {
   const uniqueSongs = [];
   let tempArr = [];
   let counts = {};
-  songs.forEach((song, index) => {
+  songs.forEach((song) => {
     let tracksNum = song.folder;
     counts[tracksNum] = counts[tracksNum] ? counts[tracksNum] + 1 : 1;
     if (!tempArr.includes(song.folder)) {
@@ -50,10 +50,12 @@ function Tracks() {
   console.log(reelSongs);
 
   const addToReels = () => {
+    let hash = Math.random().toString(36).substring(7);
+
     app
       .firestore()
       .collection("reels")
-      .add({ ...[reelSongs] });
+      .add({ ...[reelSongs], hash });
   };
   useEffect(() => {
     setFiltered(songs.filter((song) => song.folder === value));

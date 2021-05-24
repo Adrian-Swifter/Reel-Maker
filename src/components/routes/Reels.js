@@ -64,19 +64,19 @@ function Reels() {
                     </ol>
                   </div>
                   <div className="btn__container">
-                    <button className="mdc-button mdc-button--raised">
-                      <span className="mdc-button__ripple"></span>
-                      <span className="mdc-button__label">Preview</span>
-                    </button>
                     <Link
                       to={{
                         pathname: "/reel",
                         songs: songs.filter((song) =>
                           reels.songs[index][0].includes(song.id)
                         ),
+                        hash: `#${reels.songs[index].hash}`,
                       }}
                     >
-                      Reel
+                      <button className="mdc-button mdc-button--raised">
+                        <span className="mdc-button__ripple"></span>
+                        <span className="mdc-button__label">Preview</span>
+                      </button>
                     </Link>
                     <button className="mdc-button mdc-button--raised">
                       <span className="mdc-button__ripple"></span>
