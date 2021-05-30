@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Waveform from "../components/waveform/Waveform";
 import PlayList from "../components/waveform/PlayList";
+import useFirestore from "../hooks/useFirestore";
 
 const dummyTracks = [
   {
@@ -13,12 +14,13 @@ const dummyTracks = [
 
 function Reel() {
   const location = useLocation();
+  const reelSongsData = useFirestore('reelSongsData')
+  
   const [selectedTrack, setSelectedTrack] = useState(dummyTracks[0]);
   useEffect(() => {
     setSelectedTrack(location.songs[0]);
   }, [location]);
-
-  console.log();
+  console.log(location.hash)
   return (
     <div className="reel">
       <Waveform url={selectedTrack.url} />

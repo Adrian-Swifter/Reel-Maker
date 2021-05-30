@@ -1,5 +1,6 @@
 import useFirestore from "../../hooks/useFirestore";
 import { Link } from "react-router-dom";
+import { app } from "../../firebase/firebase_storage";
 
 function Reels() {
   const reels = useFirestore("reels");
@@ -8,6 +9,12 @@ function Reels() {
   const openAccordion = (e) => {
     e.currentTarget.nextElementSibling.classList.toggle("block");
   };
+  const saveReelsSongs = (songs, reel) => {
+    app
+      .firestore()
+      .collection("reelSongsData")
+      .add({ songs, reel });
+  }
 
   return (
     <main className="container reels__body">
@@ -78,7 +85,7 @@ function Reels() {
                         <span className="mdc-button__label">Preview</span>
                       </button>
                     </Link>
-                    <button className="mdc-button mdc-button--raised">
+                    <button className="mdc-button mdc-button--raised" onClick={() => saveReelsSongs(songs.filter((song) => reels.songs[index][0].includes(song.id)), reel)}>
                       <span className="mdc-button__ripple"></span>
                       <span className="mdc-button__label">Add Share Link</span>
                     </button>
