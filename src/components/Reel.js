@@ -16,12 +16,12 @@ function Reel() {
   const location = useLocation();
 
   const [selectedTrack, setSelectedTrack] = useState(location.songs[0]);
-  console.log(location.reelSongs);
+  console.log(location);
   return (
     <div className="reel">
       <Waveform url={selectedTrack.url} />
       <PlayList
-        tracks={location.reelSongs.songs}
+        tracks={location.songs}
         selectedTrack={selectedTrack}
         setSelectedTrack={setSelectedTrack}
       />
