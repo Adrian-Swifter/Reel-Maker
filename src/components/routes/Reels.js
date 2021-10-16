@@ -6,7 +6,6 @@ function Reels() {
   const reels = useFirestore("reels");
   const { songs } = useFirestore("songs");
   const currentReel = useFirestore("reelSongsData");
-  console.log(currentReel);
   const openAccordion = (e) => {
     e.currentTarget.nextElementSibling.classList.toggle("block");
   };
@@ -42,7 +41,7 @@ function Reels() {
               <div key={reel.id}>
                 <div className="accordion" onClick={(e) => openAccordion(e)}>
                   <div className="reel__name reel__page">
-                    Moon Knight <span class="track__duration">(31:39)</span>
+                    Moon Knight <span className="track__duration">(31:39)</span>
                   </div>
                   <div className="kebab__menu_container">
                     <i
@@ -61,7 +60,7 @@ function Reels() {
                           reels.songs[index][0].includes(song.id)
                         )
                         .map((song) => (
-                          <li>
+                          <li key={song.id}>
                             {song.trackName}
                             <span className="track__duration">(02:07)</span>
                           </li>
