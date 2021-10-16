@@ -47,6 +47,10 @@ export default function Waveform({ url }) {
       }
     });
 
+    wavesurfer.current.on("seek", function(position) {
+      console.log(position * wavesurfer.current.getDuration())
+    })
+
     // Removes events, elements and disconnects Web Audio nodes.
     // when component unmount
     return () => wavesurfer.current.destroy();
