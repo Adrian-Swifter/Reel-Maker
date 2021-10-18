@@ -1,13 +1,14 @@
-import React from "react";
-import { app } from "../../firebase/firebase_storage";
+import React, {useState} from "react";
 import useFirestore from "../../hooks/useFirestore";
-
+import Event from "../Event";
 
 function Tracking() {
   const reels = useFirestore("reels");
   const { songs } = useFirestore("songs");
+  const [moreIcon, setMoreIcon] = useState(false)
   const openAccordion = (e) => {
     e.currentTarget.nextElementSibling.classList.toggle("block");
+    setMoreIcon(!moreIcon)
   };
 
   return (
@@ -37,34 +38,78 @@ function Tracking() {
             reels.songs.map((reel, index) => (
               <div key={reel.id}>
                 <div className="accordion" onClick={(e) => openAccordion(e)}>
-                  <div className="reel__name reel__page">
-                    Moon Knight <span className="track__duration">(31:39)</span>
+                  <div className="reel__page">
+                    <div className="reel__name">
+                      Moon Knight
+                      <span className="track__duration">(31:39)</span>
+                    </div>
+                    <div className="share__link_name">Share link name</div>
+                    <div>
+                      Opens: <span className="num__of_opens">2</span>
+                    </div>
+                    <div>
+                      Last Actitity: <span className="last__activity">2</span>{" "}
+                      hours ago
+                    </div>
                   </div>
                   <div className="kebab__menu_container">
                     <i
                       className="material-icons mdc-button__icon"
                       aria-hidden="true"
                     >
-                      more_vert
+                      {moreIcon ? "expand_less" : "expand_more" }
                     </i>
                   </div>
                 </div>
                 <div className="panel">
-                  <div className="track__list_container">
-                    <ol>
-                      {songs
-                        .filter((song) =>
-                          reels.songs[index][0].includes(song.id)
-                        )
-                        .map((song) => (
-                          <li key={song.id}>
-                            {song.trackName}
-                            <span className="track__duration">(02:07)</span>
-                          </li>
-                        ))}
-                    </ol>
-                  </div>
-                  
+                  <Event
+                    name="Event Name"
+                    iconName="play_arrow"
+                    evenLocation="Belgrade"
+                    eventTime="10 days ago"
+                    eventChangeTime="10:35"
+                    eventSong="Random Song Name"
+                  />
+                  <Event
+                    name="Event Name"
+                    iconName="stop"
+                    evenLocation="Belgrade"
+                    eventTime="10 days ago"
+                    eventChangeTime="10:35"
+                    eventSong="Random Song Name"
+                  />
+                  <Event
+                    name="Event Name"
+                    iconName="pause"
+                    evenLocation="Belgrade"
+                    eventTime="10 days ago"
+                    eventChangeTime="10:35"
+                    eventSong="Random Song Name"
+                  />
+                  <Event
+                    name="Event Name"
+                    iconName="pause"
+                    evenLocation="Belgrade"
+                    eventTime="10 days ago"
+                    eventChangeTime="10:35"
+                    eventSong="Random Song Name"
+                  />
+                  <Event
+                    name="Event Name"
+                    iconName="pause"
+                    evenLocation="Belgrade"
+                    eventTime="10 days ago"
+                    eventChangeTime="10:35"
+                    eventSong="Random Song Name"
+                  />
+                  <Event
+                    name="Event Name"
+                    iconName="pause"
+                    evenLocation="Belgrade"
+                    eventTime="10 days ago"
+                    eventChangeTime="10:35"
+                    eventSong="Random Song Name"
+                  />
                 </div>
               </div>
             ))}

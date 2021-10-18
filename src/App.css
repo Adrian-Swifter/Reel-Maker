@@ -1,16 +1,12 @@
 :root {
   box-sizing: border-box;
-  overflow: hidden;
+  
 }
 
 *,
 ::before,
 ::after {
   box-sizing: inherit;
-}
-
-.App {
-  text-align: center;
 }
 
 body {
@@ -27,10 +23,6 @@ ul {
 
 ul li {
   list-style: none;
-}
-
-ol li {
-  text-align: left;
 }
 
 .container {
@@ -108,7 +100,6 @@ li.list__item:last-child {
 }
 
 .playlist {
-  text-align: left;
   border-top: 1px solid rgba(0, 0, 0, 0.2);
 }
 
@@ -128,7 +119,6 @@ li.list__item:last-child {
 }
 
 .controls {
-  text-align: left;
   padding: 1em;
 }
 
@@ -251,7 +241,6 @@ li.list__item:last-child {
 .num__of_tracks_container {
   color: gray;
   font-size: 0.8rem;
-  text-align: left;
 }
 
 .kebab__menu_container {
@@ -321,7 +310,6 @@ li.list__item:last-child {
 
 .song {
   flex: 1;
-  text-align: left;
 }
 
 .play__button {
@@ -351,7 +339,6 @@ li.list__item:last-child {
   padding: 18px;
   width: 100%;
   border: none;
-  text-align: left;
   outline: none;
   font-size: 15px;
   transition: 0.4s;
@@ -371,7 +358,8 @@ li.list__item:last-child {
   padding: 18px;
   display: none;
   background-color: white;
-  overflow: hidden;
+  overflow: auto;
+  max-height: 400px;
 }
 
 .event {
@@ -441,7 +429,7 @@ li.list__item:last-child {
   padding: 10px;
 }
 
-.reel__name.reel__page {
+.reel__name {
   font-size: 1.5rem;
 }
 
@@ -541,13 +529,14 @@ li.list__item:last-child {
 }
 
 .modal {
-  position: absolute;
+  position: fixed;
   bottom: -150px;
   transition: all 0.4s;
   width: 100%;
   left: 0;
   background-color: #03dac5;
   padding: 20px;
+  text-align: center;
 }
 
 .show {
@@ -560,4 +549,14 @@ li.list__item:last-child {
 
 .block {
   display: block;
+}
+
+.event__wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.icon__event_wrapper {
+  display: flex;
 }
