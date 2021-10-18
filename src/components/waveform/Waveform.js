@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
 
-const formWaveSurferOptions = ref => ({
+const formWaveSurferOptions = (ref) => ({
   container: ref,
   waveColor: "gray",
   progressColor: "#333",
@@ -14,7 +14,6 @@ const formWaveSurferOptions = ref => ({
   normalize: true,
   // Use the PeakCache to improve rendering speed of large waveforms.
   partialRender: true,
-
 });
 
 export default function Waveform({ url }) {
@@ -30,12 +29,12 @@ export default function Waveform({ url }) {
 
     const options = formWaveSurferOptions(waveformRef.current);
     wavesurfer.current = WaveSurfer.create(options);
-    console.log(url)
+    console.log(url);
     wavesurfer.current.load(url);
-    wavesurfer.current.on('loading', function(X) {
+    wavesurfer.current.on("loading", function (X) {
       UpdateLoadingFlag(X);
     });
-    wavesurfer.current.on("ready", function() {
+    wavesurfer.current.on("ready", function () {
       // https://wavesurfer-js.org/docs/methods.html
       //wavesurfer.current.play();
       //setPlay(true);
@@ -47,9 +46,10 @@ export default function Waveform({ url }) {
       }
     });
 
-    wavesurfer.current.on("seek", function(position) {
-      console.log(position * wavesurfer.current.getDuration())
-    })
+    wavesurfer.current.on("seek", function (position) {
+      const time = position * wavesurfer.current.getDuration();
+      convertSecToMin(time)
+    });
 
     // Removes events, elements and disconnects Web Audio nodes.
     // when component unmount
@@ -58,23 +58,37 @@ export default function Waveform({ url }) {
 
   /* utiluty functions */
 
-const UpdateLoadingFlag = Percentage => {
-  if (document.getElementById("loading_flag")) {
-    document.getElementById("loading_flag").innerText = "Loading " + Percentage + "%";
-    if (Percentage >= 100) {
-      document.getElementById("loading_flag").style.display = "none";
-    } else {
-      document.getElementById("loading_flag").style.display = "block";
+  const UpdateLoadingFlag = (Percentage) => {
+    if (document.getElementById("loading_flag")) {
+      document.getElementById("loading_flag").innerText =
+        "Loading " + Percentage + "%";
+      if (Percentage >= 100) {
+        document.getElementById("loading_flag").style.display = "none";
+      } else {
+        document.getElementById("loading_flag").style.display = "block";
+      }
     }
+  };
+
+  const convertSecToMin = (timestamp) => {
+   
+    const hours = Math.floor(timestamp / 60 / 60);
+
+    const minutes = Math.floor(timestamp / 60) - hours * 60;
+
+    const seconds = Math.round(timestamp % 60);
+
+    const formatted = `${hours}:${minutes}:${seconds}`;
+
+    console.log(formatted);
   }
-}
 
   const handlePlayPause = () => {
     setPlay(!playing);
     wavesurfer.current.playPause();
   };
 
-  const onVolumeChange = e => {
+  const onVolumeChange = (e) => {
     const { target } = e;
     const newVolume = +target.value;
 
@@ -89,7 +103,9 @@ const UpdateLoadingFlag = Percentage => {
       <div id="loading_flag"></div>
       <div id="waveform" ref={waveformRef} />
       <div className="controls">
-        <button className="playBtnWF" onClick={handlePlayPause}>{!playing ? "Play" : "Pause"}</button>
+        <button className="playBtnWF" onClick={handlePlayPause}>
+          {!playing ? "Play" : "Pause"}
+        </button>
         <input
           type="range"
           id="volume"
