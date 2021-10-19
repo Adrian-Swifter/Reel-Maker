@@ -34,7 +34,11 @@ function Reel() {
 
   return (
     <div className="reel">
-      <Waveform url={selectedTrack.url} />
+      <Waveform
+        url={selectedTrack.url}
+        hash={location.hash}
+        songName={selectedTrack.trackName}
+      />
 
       <PlayList
         tracks={filteredSongs}

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
-
+import { app, timestamp } from "../../firebase/firebase_storage";
 const formWaveSurferOptions = (ref) => ({
   container: ref,
   waveColor: "gray",
@@ -16,7 +16,7 @@ const formWaveSurferOptions = (ref) => ({
   partialRender: true,
 });
 
-export default function Waveform({ url }) {
+export default function Waveform({ url, hash, songName }) {
   const waveformRef = useRef(null);
   const wavesurfer = useRef(null);
   const [playing, setPlay] = useState(false);
@@ -48,7 +48,13 @@ export default function Waveform({ url }) {
 
     wavesurfer.current.on("seek", function (position) {
       const time = position * wavesurfer.current.getDuration();
-      convertSecToMin(time)
+      const createdAt = timestamp();
+      const eventName = "seek";
+      const seekTo = convertSecToMin(time);
+      app
+        .firestore()
+        .collection(hash)
+        .add({ eventName, songName, createdAt, seekTo });
     });
 
     // Removes events, elements and disconnects Web Audio nodes.
@@ -71,7 +77,6 @@ export default function Waveform({ url }) {
   };
 
   const convertSecToMin = (timestamp) => {
-   
     const hours = Math.floor(timestamp / 60 / 60);
 
     const minutes = Math.floor(timestamp / 60) - hours * 60;
@@ -80,8 +85,8 @@ export default function Waveform({ url }) {
 
     const formatted = `${hours}:${minutes}:${seconds}`;
 
-    console.log(formatted);
-  }
+    return formatted;
+  };
 
   const handlePlayPause = () => {
     setPlay(!playing);
