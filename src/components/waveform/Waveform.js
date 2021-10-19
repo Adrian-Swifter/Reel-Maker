@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
 import { app, timestamp } from "../../firebase/firebase_storage";
+import firebase from "firebase/app";
 const formWaveSurferOptions = (ref) => ({
   container: ref,
   waveColor: "gray",
@@ -51,10 +52,24 @@ export default function Waveform({ url, hash, songName }) {
       const createdAt = timestamp();
       const eventName = "seek";
       const seekTo = convertSecToMin(time);
+
+      const eventData = {
+        eventName,
+        songName,
+        seekTo
+      }
+
       app
-        .firestore()
-        .collection("events")
-        .add({ hash, eventName, songName, createdAt, seekTo });
+      .firestore()
+      .collection("events")
+      .doc(hash)
+      .set(
+        {
+          eventInfo: firebase.firestore.FieldValue.arrayUnion(eventData),
+          createdAt
+        },
+        { merge: true }
+      );
     });
 
     // Removes events, elements and disconnects Web Audio nodes.

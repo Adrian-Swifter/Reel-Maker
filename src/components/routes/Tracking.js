@@ -10,7 +10,7 @@ function Tracking() {
     e.currentTarget.nextElementSibling.classList.toggle("block");
     setMoreIcon(!moreIcon);
   };
-
+  console.log(allEvents.songs)
   return (
     <main className="container reels__body">
       <div className="btn__container">
@@ -60,15 +60,15 @@ function Tracking() {
                 </div>
                 <div className="panel">
                   {allEvents &&
-                    allEvents.songs.map((event) => (
+                    event.eventInfo.map((evi) => (
                       <Event
                         key={event.id}
-                        name={event.eventName}
+                        name={evi.eventName}
                         iconName="play_arrow"
                         evenLocation="Belgrade"
                         //eventTime={event.createdAt}
-                        eventChangeTime={event.seekTo}
-                        eventSong={event.trackName}
+                        eventChangeTime={evi.seekTo}
+                        eventSong={evi.songName}
                       />
                     ))}
                 </div>
