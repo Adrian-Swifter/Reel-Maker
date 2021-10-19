@@ -1,14 +1,14 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import useFirestore from "../../hooks/useFirestore";
 import Event from "../Event";
 
 function Tracking() {
   const reels = useFirestore("reels");
-  const { songs } = useFirestore("songs");
-  const [moreIcon, setMoreIcon] = useState(false)
+  const allEvents = useFirestore("events");
+  const [moreIcon, setMoreIcon] = useState(false);
   const openAccordion = (e) => {
     e.currentTarget.nextElementSibling.classList.toggle("block");
-    setMoreIcon(!moreIcon)
+    setMoreIcon(!moreIcon);
   };
 
   return (
@@ -34,16 +34,13 @@ function Tracking() {
 
       <div className="main__container">
         <div className="left__section">
-          {reels &&
-            reels.songs.map((reel, index) => (
-              <div key={reel.id}>
+          {allEvents &&
+            allEvents.songs.map((event) => (
+              <div key={event.id}>
                 <div className="accordion" onClick={(e) => openAccordion(e)}>
                   <div className="reel__page">
-                    <div className="reel__name">
-                      Moon Knight
-                      <span className="track__duration">(31:39)</span>
-                    </div>
-                    <div className="share__link_name">Share link name</div>
+                    <div className="reel__name">Event name</div>
+                    <div className="share__link_name">{event.hash}</div>
                     <div>
                       Opens: <span className="num__of_opens">2</span>
                     </div>
@@ -57,59 +54,23 @@ function Tracking() {
                       className="material-icons mdc-button__icon"
                       aria-hidden="true"
                     >
-                      {moreIcon ? "expand_less" : "expand_more" }
+                      {moreIcon ? "expand_less" : "expand_more"}
                     </i>
                   </div>
                 </div>
                 <div className="panel">
-                  <Event
-                    name="Event Name"
-                    iconName="play_arrow"
-                    evenLocation="Belgrade"
-                    eventTime="10 days ago"
-                    eventChangeTime="10:35"
-                    eventSong="Random Song Name"
-                  />
-                  <Event
-                    name="Event Name"
-                    iconName="stop"
-                    evenLocation="Belgrade"
-                    eventTime="10 days ago"
-                    eventChangeTime="10:35"
-                    eventSong="Random Song Name"
-                  />
-                  <Event
-                    name="Event Name"
-                    iconName="pause"
-                    evenLocation="Belgrade"
-                    eventTime="10 days ago"
-                    eventChangeTime="10:35"
-                    eventSong="Random Song Name"
-                  />
-                  <Event
-                    name="Event Name"
-                    iconName="pause"
-                    evenLocation="Belgrade"
-                    eventTime="10 days ago"
-                    eventChangeTime="10:35"
-                    eventSong="Random Song Name"
-                  />
-                  <Event
-                    name="Event Name"
-                    iconName="pause"
-                    evenLocation="Belgrade"
-                    eventTime="10 days ago"
-                    eventChangeTime="10:35"
-                    eventSong="Random Song Name"
-                  />
-                  <Event
-                    name="Event Name"
-                    iconName="pause"
-                    evenLocation="Belgrade"
-                    eventTime="10 days ago"
-                    eventChangeTime="10:35"
-                    eventSong="Random Song Name"
-                  />
+                  {allEvents &&
+                    allEvents.songs.map((event) => (
+                      <Event
+                        key={event.id}
+                        name={event.eventName}
+                        iconName="play_arrow"
+                        evenLocation="Belgrade"
+                        //eventTime={event.createdAt}
+                        eventChangeTime={event.seekTo}
+                        eventSong={event.trackName}
+                      />
+                    ))}
                 </div>
               </div>
             ))}

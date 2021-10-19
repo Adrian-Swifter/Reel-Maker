@@ -53,8 +53,8 @@ export default function Waveform({ url, hash, songName }) {
       const seekTo = convertSecToMin(time);
       app
         .firestore()
-        .collection(hash)
-        .add({ eventName, songName, createdAt, seekTo });
+        .collection("events")
+        .add({ hash, eventName, songName, createdAt, seekTo });
     });
 
     // Removes events, elements and disconnects Web Audio nodes.
