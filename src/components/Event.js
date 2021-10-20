@@ -6,7 +6,7 @@ function Event(props) {
       <div className="icon__event_wrapper">
         <div className="event__icon">
           <div className="icon__holder">
-            <i class="material-icons mdc-button__icon" aria-hidden="true">
+            <i className="material-icons mdc-button__icon" aria-hidden="true">
               {props.iconName}
             </i>
           </div>
@@ -21,7 +21,7 @@ function Event(props) {
         </div>
       </div>
       <div className="delete__icon">
-        <i class="material-icons mdc-button__icon" aria-hidden="true">
+        <i className="material-icons mdc-button__icon" aria-hidden="true">
           delete
         </i>
       </div>

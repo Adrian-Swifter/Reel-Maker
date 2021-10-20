@@ -41,7 +41,7 @@ function Reels() {
               <div key={reel.id}>
                 <div className="accordion" onClick={(e) => openAccordion(e)}>
                   <div className="reel__name reel__page">
-                    Moon Knight <span className="track__duration">(31:39)</span>
+                    Reel name <span className="track__duration">(31:39)</span>
                   </div>
                   <div className="kebab__menu_container">
                     <i

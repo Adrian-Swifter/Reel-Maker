@@ -22,7 +22,7 @@ const Modal = ({ onChange, progress, makeFolder, modalStyle }) => {
           visibility ? "" : "hide"
         }`}
       >
-        <span classname="mdc-text-field__ripple"></span>
+        <span className="mdc-text-field__ripple"></span>
 
         <input
           className="mdc-text-field__input"

@@ -91,7 +91,7 @@ function Tracks() {
 
   return (
     <div className="container">
-      <div class="btn__container">
+      <div className="btn__container">
         <Button
           buttonName="Upload Tracks"
           buttonIcon="file_upload"

@@ -10,7 +10,7 @@ function Tracking() {
     e.currentTarget.nextElementSibling.classList.toggle("block");
     setMoreIcon(!moreIcon);
   };
-  console.log(allEvents.songs)
+  console.log(allEvents.songs);
   return (
     <main className="container reels__body">
       <div className="btn__container">
@@ -35,11 +35,11 @@ function Tracking() {
       <div className="main__container">
         <div className="left__section">
           {allEvents &&
-            allEvents.songs.map((event) => (
-              <div key={event.id}>
+            allEvents.songs.map((event, ind) => (
+              <div key={ind}>
                 <div className="accordion" onClick={(e) => openAccordion(e)}>
                   <div className="reel__page">
-                    <div className="reel__name">Event name</div>
+                    <div className="reel__name">Reel name</div>
                     <div className="share__link_name">{event.hash}</div>
                     <div>
                       Opens: <span className="num__of_opens">2</span>
@@ -60,9 +60,9 @@ function Tracking() {
                 </div>
                 <div className="panel">
                   {allEvents &&
-                    event.eventInfo.map((evi) => (
+                    event.eventInfo.map((evi, index) => (
                       <Event
-                        key={event.id}
+                        key={index}
                         name={evi.eventName}
                         iconName="play_arrow"
                         evenLocation="Belgrade"
