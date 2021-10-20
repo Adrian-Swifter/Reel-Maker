@@ -3,14 +3,13 @@ import useFirestore from "../../hooks/useFirestore";
 import Event from "../Event";
 
 function Tracking() {
-  const reels = useFirestore("reels");
   const allEvents = useFirestore("events");
   const [moreIcon, setMoreIcon] = useState(false);
   const openAccordion = (e) => {
     e.currentTarget.nextElementSibling.classList.toggle("block");
     setMoreIcon(!moreIcon);
   };
-  console.log(allEvents.songs);
+ 
   return (
     <main className="container reels__body">
       <div className="btn__container">
@@ -35,45 +34,51 @@ function Tracking() {
       <div className="main__container">
         <div className="left__section">
           {allEvents &&
-            allEvents.songs.map((event, ind) => (
-              <div key={ind}>
-                <div className="accordion" onClick={(e) => openAccordion(e)}>
-                  <div className="reel__page">
-                    <div className="reel__name">Reel name</div>
-                    <div className="share__link_name">{event.hash}</div>
-                    <div>
-                      Opens: <span className="num__of_opens">2</span>
+            allEvents.songs
+              .slice(0)
+              .reverse()
+              .map((event, ind) => (
+                <div key={ind}>
+                  <div className="accordion" onClick={(e) => openAccordion(e)}>
+                    <div className="reel__page">
+                      <div className="reel__name">Reel name</div>
+                      <div className="share__link_name">{event.id}</div>
+                      <div>
+                        Opens: <span className="num__of_opens">2</span>
+                      </div>
+                      <div>
+                        Last Actitity: <span className="last__activity">2</span>{" "}
+                        hours ago
+                      </div>
                     </div>
-                    <div>
-                      Last Actitity: <span className="last__activity">2</span>{" "}
-                      hours ago
+                    <div className="kebab__menu_container">
+                      <i
+                        className="material-icons mdc-button__icon"
+                        aria-hidden="true"
+                      >
+                        {moreIcon ? "expand_less" : "expand_more"}
+                      </i>
                     </div>
                   </div>
-                  <div className="kebab__menu_container">
-                    <i
-                      className="material-icons mdc-button__icon"
-                      aria-hidden="true"
-                    >
-                      {moreIcon ? "expand_less" : "expand_more"}
-                    </i>
+                  <div className="panel">
+                    {allEvents &&
+                      event.eventInfo
+                        .slice(0)
+                        .reverse()
+                        .map((evi, index) => (
+                          <Event
+                            key={index}
+                            name={evi.eventName}
+                            iconName="play_arrow"
+                            evenLocation="Belgrade"
+                            //eventTime={event.createdAt}
+                            eventChangeTime={evi.seekTo}
+                            eventSong={evi.songName}
+                          />
+                        ))}
                   </div>
                 </div>
-                <div className="panel">
-                  {allEvents &&
-                    event.eventInfo.map((evi, index) => (
-                      <Event
-                        key={index}
-                        name={evi.eventName}
-                        iconName="play_arrow"
-                        evenLocation="Belgrade"
-                        //eventTime={event.createdAt}
-                        eventChangeTime={evi.seekTo}
-                        eventSong={evi.songName}
-                      />
-                    ))}
-                </div>
-              </div>
-            ))}
+              ))}
         </div>
         <div className="right__section bg-trans"></div>
       </div>
