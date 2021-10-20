@@ -68,8 +68,8 @@ function Tracking() {
                         .map((evi, index) => (
                           <Event
                             key={index}
-                            name={evi.eventName}
-                            iconName="play_arrow"
+                            name={evi.eventNameandIcon.name}
+                            iconName={evi.eventNameandIcon.icon}
                             evenLocation="Belgrade"
                             //eventTime={event.createdAt}
                             eventChangeTime={evi.seekTo}

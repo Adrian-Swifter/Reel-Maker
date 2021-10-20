@@ -44,32 +44,56 @@ export default function Waveform({ url, hash, songName }) {
       if (wavesurfer.current) {
         wavesurfer.current.setVolume(volume);
         setVolume(volume);
+
+        const eventNameandIcon = {
+          name: "Open",
+          icon: "visibility",
+        };
+
+        const eventData = {
+          eventNameandIcon,
+          songName,
+        };
+
+        app
+          .firestore()
+          .collection("events")
+          .doc(hash)
+          .set(
+            {
+              eventInfo: firebase.firestore.FieldValue.arrayUnion(eventData),
+            },
+            { merge: true }
+          );
       }
     });
 
     wavesurfer.current.on("seek", function (position) {
       const time = position * wavesurfer.current.getDuration();
       const createdAt = timestamp();
-      const eventName = "seek";
+      const eventNameandIcon = {
+        name: "seek",
+        icon: "swap_horiz",
+      };
       const seekTo = convertSecToMin(time);
 
       const eventData = {
-        eventName,
+        eventNameandIcon,
         songName,
-        seekTo
-      }
+        seekTo,
+      };
 
       app
-      .firestore()
-      .collection("events")
-      .doc(hash)
-      .set(
-        {
-          eventInfo: firebase.firestore.FieldValue.arrayUnion(eventData),
-          createdAt
-        },
-        { merge: true }
-      );
+        .firestore()
+        .collection("events")
+        .doc(hash)
+        .set(
+          {
+            eventInfo: firebase.firestore.FieldValue.arrayUnion(eventData),
+            createdAt,
+          },
+          { merge: true }
+        );
     });
 
     // Removes events, elements and disconnects Web Audio nodes.
