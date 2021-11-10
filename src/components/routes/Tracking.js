@@ -71,11 +71,15 @@ function Tracking() {
                             name={evi.eventNameandIcon.name}
                             iconName={evi.eventNameandIcon.icon}
                             evenLocation="Belgrade"
-                            //eventTime={event.createdAt}
+                            eventTime={evi.time}
                             eventChangeTime={evi.seekTo}
                             eventSong={evi.songName}
+                            eventColor={evi.color}
                           />
-                        ))}
+                          
+                        ))
+                          
+                        }
                   </div>
                 </div>
               ))}

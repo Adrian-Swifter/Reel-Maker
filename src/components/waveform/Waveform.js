@@ -49,10 +49,12 @@ export default function Waveform({ url, hash, songName }) {
           name: "Open",
           icon: "visibility",
         };
-
+        const time =  new Date().toLocaleString() + '';
+        
         const eventData = {
           eventNameandIcon,
           songName,
+          time
         };
 
         app
@@ -69,18 +71,21 @@ export default function Waveform({ url, hash, songName }) {
     });
 
     wavesurfer.current.on("seek", function (position) {
-      const time = position * wavesurfer.current.getDuration();
+      const timeseek = position * wavesurfer.current.getDuration();
       const createdAt = timestamp();
       const eventNameandIcon = {
         name: "seek",
         icon: "swap_horiz",
       };
-      const seekTo = convertSecToMin(time);
-
+      const seekTo = convertSecToMin(timeseek);
+      const color = "tomato"
+      const time =  new Date().toLocaleString() + '';
       const eventData = {
         eventNameandIcon,
         songName,
         seekTo,
+        color,
+        time
       };
 
       app
