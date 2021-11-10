@@ -49,12 +49,12 @@ export default function Waveform({ url, hash, songName }) {
           name: "Open",
           icon: "visibility",
         };
-        const time =  new Date().toLocaleString() + '';
-        
+        const time = new Date().toLocaleString() + "";
+
         const eventData = {
           eventNameandIcon,
           songName,
-          time
+          time,
         };
 
         app
@@ -78,14 +78,43 @@ export default function Waveform({ url, hash, songName }) {
         icon: "swap_horiz",
       };
       const seekTo = convertSecToMin(timeseek);
-      const color = "tomato"
-      const time =  new Date().toLocaleString() + '';
+      const color = "gold";
+      const time = new Date().toLocaleString() + "";
       const eventData = {
         eventNameandIcon,
         songName,
         seekTo,
         color,
-        time
+        time,
+      };
+
+      app
+        .firestore()
+        .collection("events")
+        .doc(hash)
+        .set(
+          {
+            eventInfo: firebase.firestore.FieldValue.arrayUnion(eventData),
+            createdAt,
+          },
+          { merge: true }
+        );
+    });
+
+    wavesurfer.current.on("pause", function (position) {
+      const createdAt = timestamp();
+      const eventNameandIcon = {
+        name: "pause",
+        icon: "pause",
+      };
+
+      const color = "tomato";
+      const time = new Date().toLocaleString() + "";
+      const eventData = {
+        eventNameandIcon,
+        songName,
+        color,
+        time,
       };
 
       app
