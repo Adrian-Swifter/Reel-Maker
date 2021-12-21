@@ -53,7 +53,6 @@ export default function Waveform({ url, hash, songName }) {
 
         const eventData = {
           eventNameandIcon,
-          songName,
           time,
         };
 
@@ -76,6 +75,7 @@ export default function Waveform({ url, hash, songName }) {
       const eventNameandIcon = {
         name: "seek",
         icon: "swap_horiz",
+        preposition: "to:",
       };
       const seekTo = convertSecToMin(timeseek);
       const color = "gold";
@@ -101,11 +101,15 @@ export default function Waveform({ url, hash, songName }) {
         );
     });
 
-    wavesurfer.current.on("pause", function (position) {
+    wavesurfer.current.on("pause", function () {
       const createdAt = timestamp();
+      const pauseTime = convertSecToMin(
+        Math.round(wavesurfer.current.getCurrentTime())
+      );
       const eventNameandIcon = {
         name: "pause",
         icon: "pause",
+        preposition: "at:",
       };
 
       const color = "tomato";
@@ -115,6 +119,7 @@ export default function Waveform({ url, hash, songName }) {
         songName,
         color,
         time,
+        pauseTime,
       };
 
       app
@@ -125,6 +130,31 @@ export default function Waveform({ url, hash, songName }) {
           {
             eventInfo: firebase.firestore.FieldValue.arrayUnion(eventData),
             createdAt,
+          },
+          { merge: true }
+        );
+    });
+
+    wavesurfer.current.on("play", function () {
+      const eventNameandIcon = {
+        name: "Play",
+        icon: "play_arrow",
+      };
+      const time = new Date().toLocaleString() + "";
+
+      const eventData = {
+        eventNameandIcon,
+        songName,
+        time,
+      };
+
+      app
+        .firestore()
+        .collection("events")
+        .doc(hash)
+        .set(
+          {
+            eventInfo: firebase.firestore.FieldValue.arrayUnion(eventData),
           },
           { merge: true }
         );
@@ -156,7 +186,7 @@ export default function Waveform({ url, hash, songName }) {
 
     const seconds = Math.round(timestamp % 60);
 
-    const formatted = `${hours}:${minutes}:${seconds}`;
+    const formatted = `${hours}h:${minutes}m:${seconds}s`;
 
     return formatted;
   };

@@ -75,6 +75,8 @@ function Tracking() {
                             eventChangeTime={evi.seekTo}
                             eventSong={evi.songName}
                             eventColor={evi.color}
+                            eventPreposition = {evi.eventNameandIcon.preposition}
+                            eventPauseTime={evi.pauseTime}
                           />
                           
                         ))

@@ -1,7 +1,16 @@
 import React from "react";
 
 function Event(props) {
-  console.log(props.eventColor)
+  let whatTime = 0;
+  if (props.eventPreposition === "at:") {
+    whatTime = props.eventPauseTime;
+  } else if(props.eventPreposition === "to:"){
+    whatTime = props.eventChangeTime;
+  } else {
+    whatTime = null
+  }
+
+
   return (
     <div className="event__wrapper">
       <div className="icon__event_wrapper">
@@ -13,7 +22,7 @@ function Event(props) {
           </div>
         </div>
         <div className="event__info">
-          <div className="event__name">{props.name} <span className="track__duration">{props.eventChangeTime}</span></div>
+          <div className="event__name">{props.name} <span className="track__duration"> {props.eventPreposition} {whatTime}</span></div>
           <div className="event__song">{props.eventSong}</div>
           <div className="event__location_time">
             <span className="event__location">{props.evenLocation}</span>, 
