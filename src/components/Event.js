@@ -6,6 +6,8 @@ function Event(props) {
     whatTime = props.eventPauseTime;
   } else if(props.eventPreposition === "to:"){
     whatTime = props.eventChangeTime;
+  } else if(props.eventPreposition === "from:") {
+    whatTime = props.eventStartTime;
   } else {
     whatTime = null
   }

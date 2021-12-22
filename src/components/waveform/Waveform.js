@@ -46,13 +46,14 @@ export default function Waveform({ url, hash, songName }) {
         setVolume(volume);
 
         const eventNameandIcon = {
-          name: "Open",
+          name: "Loaded",
           icon: "visibility",
         };
         const time = new Date().toLocaleString() + "";
 
         const eventData = {
           eventNameandIcon,
+          songName,
           time,
         };
 
@@ -122,23 +123,32 @@ export default function Waveform({ url, hash, songName }) {
         pauseTime,
       };
 
-      app
-        .firestore()
-        .collection("events")
-        .doc(hash)
-        .set(
-          {
-            eventInfo: firebase.firestore.FieldValue.arrayUnion(eventData),
-            createdAt,
-          },
-          { merge: true }
-        );
+      if (
+        wavesurfer.current.getCurrentTime() < wavesurfer.current.getDuration()
+      ) {
+        app
+          .firestore()
+          .collection("events")
+          .doc(hash)
+          .set(
+            {
+              eventInfo: firebase.firestore.FieldValue.arrayUnion(eventData),
+              createdAt,
+            },
+            { merge: true }
+          );
+      }
     });
 
     wavesurfer.current.on("play", function () {
+      const startTime = convertSecToMin(
+        Math.round(wavesurfer.current.getCurrentTime())
+      );
+
       const eventNameandIcon = {
         name: "Play",
         icon: "play_arrow",
+        preposition: "from:",
       };
       const time = new Date().toLocaleString() + "";
 
@@ -146,6 +156,7 @@ export default function Waveform({ url, hash, songName }) {
         eventNameandIcon,
         songName,
         time,
+        startTime,
       };
 
       app
@@ -158,6 +169,35 @@ export default function Waveform({ url, hash, songName }) {
           },
           { merge: true }
         );
+    });
+
+    wavesurfer.current.on("finish", function () {
+      const eventNameandIcon = {
+        name: "Finished Playing",
+        icon: "mood",
+      };
+      const time = new Date().toLocaleString() + "";
+      const color = "rgb(31, 199, 98)";
+
+      const eventData = {
+        eventNameandIcon,
+        songName,
+        time,
+        color,
+      };
+
+      app
+        .firestore()
+        .collection("events")
+        .doc(hash)
+        .set(
+          {
+            eventInfo: firebase.firestore.FieldValue.arrayUnion(eventData),
+          },
+          { merge: true }
+        );
+
+      setPlay(!playing);
     });
 
     // Removes events, elements and disconnects Web Audio nodes.

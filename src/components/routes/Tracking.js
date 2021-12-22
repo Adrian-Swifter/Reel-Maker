@@ -77,6 +77,7 @@ function Tracking() {
                             eventColor={evi.color}
                             eventPreposition = {evi.eventNameandIcon.preposition}
                             eventPauseTime={evi.pauseTime}
+                            eventStartTime={evi.startTime}
                           />
                           
                         ))
