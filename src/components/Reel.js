@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { useLocation, Link } from "react-router-dom";
 import Waveform from "../components/waveform/Waveform";
 import PlayList from "../components/waveform/PlayList";
 import useFirestore from "../hooks/useFirestore";
@@ -12,6 +12,7 @@ function Reel() {
   const [selectedTrack, setSelectedTrack] = useState({ url: "initial value" });
   const [filteredSongs, setFilteredSongs] = useState([]);
   const [hash, setHash] = useState(0);
+  const downloadLink = useRef(null);
 
   useEffect(() => {
     let tempARr = [];
@@ -31,7 +32,9 @@ function Reel() {
       setFilteredSongs(tempARr);
     });
   }, [allReels.songs, hash]);
-
+  const blob1 = new Blob([selectedTrack.url]);
+  downloadLink.current.href = URL.createObjectURL(blob1);
+  console.log(downloadLink, "aaaaaaa")
   return (
     <div className="reel">
       <Waveform
@@ -45,6 +48,9 @@ function Reel() {
         selectedTrack={selectedTrack}
         setSelectedTrack={setSelectedTrack}
       />
+      <a ref={downloadLink} download="pjesma.mp3">
+        Download Track
+      </a>
     </div>
   );
 }
