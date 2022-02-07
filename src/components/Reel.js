@@ -14,6 +14,10 @@ function Reel() {
   const [hash, setHash] = useState(0);
   const downloadLink = useRef(null);
 
+  const handleDownload = () => {
+    
+  }
+
   useEffect(() => {
     let tempARr = [];
     let tempHash = [];
@@ -32,9 +36,9 @@ function Reel() {
       setFilteredSongs(tempARr);
     });
   }, [allReels.songs, hash]);
-  const blob1 = new Blob([selectedTrack.url]);
-  downloadLink.current.href = URL.createObjectURL(blob1);
-  console.log(downloadLink, "aaaaaaa")
+  // const blob1 = new Blob([selectedTrack.url]);
+  // downloadLink.current.href = URL.createObjectURL(blob1);
+  // console.log(downloadLink, "aaaaaaa")
   return (
     <div className="reel">
       <Waveform
@@ -48,9 +52,7 @@ function Reel() {
         selectedTrack={selectedTrack}
         setSelectedTrack={setSelectedTrack}
       />
-      <a ref={downloadLink} download="pjesma.mp3">
-        Download Track
-      </a>
+      <button onClick={handleDownload}>Download Tracks</button>
     </div>
   );
 }

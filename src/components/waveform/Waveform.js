@@ -100,6 +100,7 @@ export default function Waveform({ url, hash, songName }) {
           },
           { merge: true }
         );
+        console.log(playing);
     });
 
     wavesurfer.current.on("pause", function () {
@@ -197,7 +198,7 @@ export default function Waveform({ url, hash, songName }) {
           { merge: true }
         );
 
-      setPlay(!playing);
+      console.log(playing);
     });
 
     // Removes events, elements and disconnects Web Audio nodes.
