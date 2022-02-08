@@ -3,6 +3,8 @@ import { useLocation, Link } from "react-router-dom";
 import Waveform from "../components/waveform/Waveform";
 import PlayList from "../components/waveform/PlayList";
 import useFirestore from "../hooks/useFirestore";
+import JsZip from "jszip";
+import FileSaver from "file-saver";
 
 function Reel() {
   const location = useLocation();
@@ -14,9 +16,38 @@ function Reel() {
   const [hash, setHash] = useState(0);
   const downloadLink = useRef(null);
 
+  const download = async (img) => {
+    console.log(img);
+    const resp = await fetch(`https://cors-anywhere.herokuapp.com/${img}`);
+    return await resp.blob();
+  };
+
+  const downloadByGroup = (urls, files_per_group = 5) => {
+    return Promise.all(urls.map((url) => download(url)));
+  };
+
+  const exportZip = (blobs) => {
+    const zip = JsZip();
+    blobs.forEach((blob, i) => {
+      zip.file(`file-${i}.mp3`, blob);
+    });
+    zip.generateAsync({ type: "blob" }).then((zipFile) => {
+      const currentDate = new Date().getTime();
+      const fileName = `combined-${currentDate}.zip`;
+      return FileSaver.saveAs(zipFile, fileName);
+    });
+  };
+
+  const downloadAndZip = async (urls) => {
+    const blobs = await downloadByGroup(urls, 5);
+    console.log(blobs);
+    return exportZip(blobs);
+  };
+
   const handleDownload = () => {
-    
-  }
+    const urls = filteredSongs.map((song) => song.url);
+    downloadAndZip(urls)
+  };
 
   useEffect(() => {
     let tempARr = [];
@@ -36,9 +67,7 @@ function Reel() {
       setFilteredSongs(tempARr);
     });
   }, [allReels.songs, hash]);
-  // const blob1 = new Blob([selectedTrack.url]);
-  // downloadLink.current.href = URL.createObjectURL(blob1);
-  // console.log(downloadLink, "aaaaaaa")
+ 
   return (
     <div className="reel">
       <Waveform
@@ -52,7 +81,7 @@ function Reel() {
         selectedTrack={selectedTrack}
         setSelectedTrack={setSelectedTrack}
       />
-      <button onClick={handleDownload}>Download Tracks</button>
+      <button onClick={() => handleDownload()}>Download Tracks</button>
     </div>
   );
 }
