@@ -7,6 +7,7 @@ import Modal from "../Modal";
 function Tracks() {
   const { songs } = useFirestore("songs");
   const uniqueSongs = [];
+  let hash = Math.random().toString(36).substring(7);
   let tempArr = [];
   let counts = {};
   songs.forEach((song) => {
@@ -26,7 +27,12 @@ function Tracks() {
   const [modalStyle, setModalStyle] = useState(false);
   const [ind, setInd] = useState(0);
   const [reelSongs, setReelSongs] = useState([]);
+  const [reelName, setReelName] = useState(hash);
 
+  const setReelNameHandler = (e) => {
+    setReelName(e.target.value);
+  };
+  console.log(reelName);
   const makeFolder = (e) => {
     setValue(e.target.value);
   };
@@ -50,12 +56,10 @@ function Tracks() {
   console.log(reelSongs);
 
   const addToReels = () => {
-    let hash = Math.random().toString(36).substring(7);
-
     app
       .firestore()
       .collection("reels")
-      .add({ ...[reelSongs], hash });
+      .add({ ...[reelSongs], hash, reelName });
   };
   useEffect(() => {
     setFiltered(songs.filter((song) => song.folder === value));
@@ -139,6 +143,11 @@ function Tracks() {
         </div>
         <div className="right__section">
           <button onClick={addToReels}>Choose Tracks</button>
+          <input
+            onChange={setReelNameHandler}
+            type="text"
+            placeholder="Name of the reel"
+          />
           <div className="track__search_and_kebab_container">
             <div className="search__input_contaner">
               <input

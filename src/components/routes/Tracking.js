@@ -41,7 +41,7 @@ function Tracking() {
                 <div key={ind}>
                   <div className="accordion" onClick={(e) => openAccordion(e)}>
                     <div className="reel__page">
-                      <div className="reel__name">Reel name</div>
+                      <div className="reel__name">{event.reelName ? event.reelName : "Reel name"}</div>
                       <div className="share__link_name">{event.id}</div>
                       <div>
                         Opens: <span className="num__of_opens">2</span>

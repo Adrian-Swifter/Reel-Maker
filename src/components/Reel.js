@@ -10,14 +10,13 @@ function Reel() {
   const location = useLocation();
   const allSongs = useFirestore("songs");
   const allReels = useFirestore("reels");
-
+  const [reelName, setReelName] = useState("")
   const [selectedTrack, setSelectedTrack] = useState({ url: "initial value" });
   const [filteredSongs, setFilteredSongs] = useState([]);
   const [hash, setHash] = useState(0);
   const downloadLink = useRef(null);
-
+  console.log(allReels)
   const download = async (img) => {
-    console.log(img);
     const resp = await fetch(`https://cors-anywhere.herokuapp.com/${img}`);
     return await resp.blob();
   };
@@ -40,13 +39,12 @@ function Reel() {
 
   const downloadAndZip = async (urls) => {
     const blobs = await downloadByGroup(urls, 5);
-    console.log(blobs);
     return exportZip(blobs);
   };
 
   const handleDownload = () => {
     const urls = filteredSongs.map((song) => song.url);
-    downloadAndZip(urls)
+    downloadAndZip(urls);
   };
 
   useEffect(() => {
@@ -57,6 +55,7 @@ function Reel() {
         tempHash.push(index);
       }
       setHash(tempHash[0]);
+      setReelName(song.reelName)
     });
 
     allSongs.songs.forEach((song) => {
@@ -67,13 +66,14 @@ function Reel() {
       setFilteredSongs(tempARr);
     });
   }, [allReels.songs, hash]);
- 
+
   return (
     <div className="reel">
       <Waveform
         url={selectedTrack.url}
         hash={location.hash}
         songName={selectedTrack.trackName}
+        reelName={reelName}
       />
 
       <PlayList
