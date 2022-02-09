@@ -15,8 +15,8 @@ function Reel() {
   const [filteredSongs, setFilteredSongs] = useState([]);
   const [hash, setHash] = useState(0);
   const downloadLink = useRef(null);
-  console.log(allReels)
-  
+  console.log(filteredSongs, "fils")
+
   const download = async (img) => {
     const resp = await fetch(img);
     return await resp.blob();
@@ -26,10 +26,10 @@ function Reel() {
     return Promise.all(urls.map((url) => download(url)));
   };
 
-  const exportZip = (blobs) => {
+  const exportZip = (blobs, trackNames) => {
     const zip = JsZip();
     blobs.forEach((blob, i) => {
-      zip.file(`file-${i}.mp3`, blob);
+      zip.file(`${trackNames[i]}.mp3`, blob);
     });
     zip.generateAsync({ type: "blob" }).then((zipFile) => {
       const currentDate = new Date().getTime();
@@ -38,14 +38,15 @@ function Reel() {
     });
   };
 
-  const downloadAndZip = async (urls) => {
+  const downloadAndZip = async (urls, trackNames) => {
     const blobs = await downloadByGroup(urls, 5);
-    return exportZip(blobs);
+    return exportZip(blobs, trackNames);
   };
 
   const handleDownload = () => {
     const urls = filteredSongs.map((song) => song.url);
-    downloadAndZip(urls);
+    const trackNames = filteredSongs.map((song) => song.trackName);
+    downloadAndZip(urls, trackNames);
   };
 
   useEffect(() => {
