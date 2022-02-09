@@ -29,7 +29,7 @@ function Reel() {
   const exportZip = (blobs, trackNames) => {
     const zip = JsZip();
     blobs.forEach((blob, i) => {
-      zip.file(`${trackNames[i]}.mp3`, blob);
+      zip.file(trackNames[i], blob);
     });
     zip.generateAsync({ type: "blob" }).then((zipFile) => {
       const currentDate = new Date().getTime();
