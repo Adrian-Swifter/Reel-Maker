@@ -16,8 +16,9 @@ function Reel() {
   const [hash, setHash] = useState(0);
   const downloadLink = useRef(null);
   console.log(allReels)
+  
   const download = async (img) => {
-    const resp = await fetch(`https://cors-anywhere.herokuapp.com/${img}`);
+    const resp = await fetch(img);
     return await resp.blob();
   };
 
