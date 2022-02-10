@@ -10,19 +10,19 @@ function Reel() {
   const location = useLocation();
   const allSongs = useFirestore("songs");
   const allReels = useFirestore("reels");
-  const [reelName, setReelName] = useState("")
+  const [reelName, setReelName] = useState("");
   const [selectedTrack, setSelectedTrack] = useState({ url: "initial value" });
   const [filteredSongs, setFilteredSongs] = useState([]);
   const [hash, setHash] = useState(0);
   const downloadLink = useRef(null);
-  console.log(filteredSongs, "fils")
+  console.log(filteredSongs, "fils");
 
-  const download = async (img) => {
-    const resp = await fetch(img);
+  const download = async (audioUrl) => {
+    const resp = await fetch(audioUrl);
     return await resp.blob();
   };
 
-  const downloadByGroup = (urls, files_per_group = 5) => {
+  const downloadByGroup = (urls) => {
     return Promise.all(urls.map((url) => download(url)));
   };
 
@@ -39,7 +39,7 @@ function Reel() {
   };
 
   const downloadAndZip = async (urls, trackNames) => {
-    const blobs = await downloadByGroup(urls, 5);
+    const blobs = await downloadByGroup(urls);
     return exportZip(blobs, trackNames);
   };
 
@@ -57,7 +57,7 @@ function Reel() {
         tempHash.push(index);
       }
       setHash(tempHash[0]);
-      setReelName(song.reelName)
+      setReelName(song.reelName);
     });
 
     allSongs.songs.forEach((song) => {
