@@ -1,6 +1,5 @@
 :root {
   box-sizing: border-box;
-  
 }
 
 *,
@@ -15,6 +14,11 @@ body {
   background-color: #eaecef;
   color: #180018;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h1,
+.not-found {
+  text-align: center;
 }
 
 ul {

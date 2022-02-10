@@ -5,6 +5,7 @@ import Reels from "./routes/Reels";
 import Tracking from "./routes/Tracking";
 import Tracks from "./routes/Tracks";
 import Reel from "./Reel";
+import NotFound from "./NotFound";
 
 export default function NavigationHeader() {
   return (
@@ -53,6 +54,9 @@ export default function NavigationHeader() {
           </Route>
           <Route path="/reel">
             <Reel />
+          </Route>
+          <Route>
+            <NotFound />
           </Route>
         </Switch>
       </Router>

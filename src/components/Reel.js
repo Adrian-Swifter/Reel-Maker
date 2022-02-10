@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useLocation, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Waveform from "../components/waveform/Waveform";
 import PlayList from "../components/waveform/PlayList";
 import useFirestore from "../hooks/useFirestore";
@@ -14,7 +14,6 @@ function Reel() {
   const [selectedTrack, setSelectedTrack] = useState({ url: "initial value" });
   const [filteredSongs, setFilteredSongs] = useState([]);
   const [hash, setHash] = useState(0);
-  const downloadLink = useRef(null);
   console.log(filteredSongs, "fils");
 
   const download = async (audioUrl) => {
