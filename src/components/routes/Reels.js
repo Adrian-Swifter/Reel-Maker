@@ -9,9 +9,6 @@ function Reels() {
   const openAccordion = (e) => {
     e.currentTarget.nextElementSibling.classList.toggle("block");
   };
-  const saveReelsSongs = (songs, reel) => {
-    app.firestore().collection("reelSongsData").add({ songs, reel });
-  };
 
   return (
     <main className="container reels__body">
@@ -41,7 +38,8 @@ function Reels() {
               <div key={reel.id}>
                 <div className="accordion" onClick={(e) => openAccordion(e)}>
                   <div className="reel__name reel__page">
-                   {reel.reelName ? reel.reelName : "Reel name"} <span className="track__duration">(31:39)</span>
+                    {reel.reelName ? reel.reelName : "Reel name"}{" "}
+                    <span className="track__duration">(31:39)</span>
                   </div>
                   <div className="kebab__menu_container">
                     <i
@@ -83,17 +81,7 @@ function Reels() {
                         <span className="mdc-button__label">Preview</span>
                       </button>
                     </Link>
-                    <button
-                      className="mdc-button mdc-button--raised"
-                      onClick={() =>
-                        saveReelsSongs(
-                          songs.filter((song) =>
-                            reels.songs[index][0].includes(song.id)
-                          ),
-                          reel
-                        )
-                      }
-                    >
+                    <button className="mdc-button mdc-button--raised">
                       <span className="mdc-button__ripple"></span>
                       <span className="mdc-button__label">Add Share Link</span>
                     </button>
