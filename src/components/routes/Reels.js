@@ -1,14 +1,15 @@
 import useFirestore from "../../hooks/useFirestore";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function Reels() {
   const reels = useFirestore("reels");
   const { songs } = useFirestore("songs");
+  const location = useLocation();
 
   const openAccordion = (e) => {
     e.currentTarget.nextElementSibling.classList.toggle("block");
   };
-
+  
   return (
     <main className="container reels__body">
       <div className="btn__container">
@@ -83,6 +84,20 @@ function Reels() {
                       <span className="mdc-button__ripple"></span>
                       <span className="mdc-button__label">Add Share Link</span>
                     </button>
+                  </div>
+                  <div
+                    style={{ cursor: "pointer" }}
+                    title="Click to copy to clipboard"
+                    onClick={(e) => {
+                      navigator.clipboard.writeText(e.target.innerText);
+                      e.target.innerText = "Copied!";
+                      setTimeout(() => {
+                        e.target.innerText = `${window.location.origin}/reel#${reel.hash}`;
+                      }, 1500);
+                    }}
+                  >
+                    <h3>Share links</h3>
+                    {`${window.location.origin}/reel#${reel.hash}`}
                   </div>
                 </div>
               </div>
