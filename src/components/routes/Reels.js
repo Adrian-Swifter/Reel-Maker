@@ -9,7 +9,7 @@ function Reels() {
   const openAccordion = (e) => {
     e.currentTarget.nextElementSibling.classList.toggle("block");
   };
-  
+
   return (
     <main className="container reels__body">
       <div className="btn__container">
@@ -85,6 +85,7 @@ function Reels() {
                       <span className="mdc-button__label">Add Share Link</span>
                     </button>
                   </div>
+                  <h3>Share links</h3>
                   <div
                     style={{ cursor: "pointer" }}
                     title="Click to copy to clipboard"
@@ -96,7 +97,6 @@ function Reels() {
                       }, 1500);
                     }}
                   >
-                    <h3>Share links</h3>
                     {`${window.location.origin}/reel#${reel.hash}`}
                   </div>
                 </div>
