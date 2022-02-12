@@ -1,11 +1,10 @@
 import useFirestore from "../../hooks/useFirestore";
 import { Link } from "react-router-dom";
 
-
 function Reels() {
   const reels = useFirestore("reels");
   const { songs } = useFirestore("songs");
-  const currentReel = useFirestore("reelSongsData");
+
   const openAccordion = (e) => {
     e.currentTarget.nextElementSibling.classList.toggle("block");
   };
@@ -72,7 +71,6 @@ function Reels() {
                         songs: songs.filter((song) =>
                           reels.songs[index][0].includes(song.id)
                         ),
-                        reelSongs: currentReel.songs[0],
                         hash: `#${reels.songs[index].hash}`,
                       }}
                     >
