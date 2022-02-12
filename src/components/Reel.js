@@ -5,6 +5,7 @@ import PlayList from "../components/waveform/PlayList";
 import useFirestore from "../hooks/useFirestore";
 import JsZip from "jszip";
 import FileSaver from "file-saver";
+import NotFound from "../components/NotFound";
 
 function Reel() {
   const location = useLocation();
@@ -14,7 +15,8 @@ function Reel() {
   const [selectedTrack, setSelectedTrack] = useState({ url: "initial value" });
   const [filteredSongs, setFilteredSongs] = useState([]);
   const [hash, setHash] = useState(0);
-  console.log(filteredSongs, "fils");
+  const [isTheHashOk, setIsTheHashOk] = useState(false);
+  let hashes = [];
 
   const download = async (audioUrl) => {
     const resp = await fetch(audioUrl);
@@ -51,38 +53,55 @@ function Reel() {
   useEffect(() => {
     let tempARr = [];
     let tempHash = [];
-    allReels.songs.forEach((song, index) => {
-      if (`#${song.hash}` === location.hash) {
+
+    allReels.songs.forEach((reel, index) => {
+      if (`#${reel.hash}` === location.hash) {
         tempHash.push(index);
       }
+      hashes.push(reel.hash);
       setHash(tempHash[0]);
-      setReelName(song.reelName);
+      setReelName(reel.reelName);
     });
 
-    allSongs.songs.forEach((song) => {
-      if (allReels.songs[hash][0].includes(song.id)) {
-        tempARr.push(song);
-      }
-      setSelectedTrack(tempARr[0]);
-      setFilteredSongs(tempARr);
-    });
-  }, [allReels.songs, hash]);
+    hashes.includes(
+      location.hash
+        .split("")
+        .filter((i) => i !== "#")
+        .join("")
+    )
+      ? setIsTheHashOk(true)
+      : setIsTheHashOk(false);
+    isTheHashOk &&
+      allSongs.songs.forEach((song) => {
+        if (allReels.songs[hash][0].includes(song.id)) {
+          tempARr.push(song);
+        }
+        setSelectedTrack(tempARr[0]);
+        setFilteredSongs(tempARr);
+      });
+  }, [allReels.songs, hash, location.hash, isTheHashOk]);
 
   return (
     <div className="reel">
-      <Waveform
-        url={selectedTrack.url}
-        hash={location.hash}
-        songName={selectedTrack.trackName}
-        reelName={reelName}
-      />
+      {isTheHashOk === false ? (
+        <NotFound />
+      ) : (
+        <>
+          <Waveform
+            url={selectedTrack.url}
+            hash={location.hash}
+            songName={selectedTrack && selectedTrack.trackName}
+            reelName={reelName}
+          />
 
-      <PlayList
-        tracks={filteredSongs}
-        selectedTrack={selectedTrack}
-        setSelectedTrack={setSelectedTrack}
-      />
-      <button onClick={() => handleDownload()}>Download Tracks</button>
+          <PlayList
+            tracks={filteredSongs}
+            selectedTrack={selectedTrack}
+            setSelectedTrack={setSelectedTrack}
+          />
+          <button onClick={() => handleDownload()}>Download Tracks</button>
+        </>
+      )}
     </div>
   );
 }
