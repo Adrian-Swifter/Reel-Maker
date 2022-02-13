@@ -55,11 +55,19 @@ function Reel() {
     let tempHash = [];
 
     allReels.songs.forEach((reel, index) => {
-      if (`#${reel.hash}` === location.hash) {
+      if (
+        reel.hash.includes(
+          location.hash
+            .split("")
+            .filter((i) => i !== "#")
+            .join("")
+        )
+      ) {
         tempHash.push(index);
+        hashes = [...reel.hash];
       }
       hashes.push(reel.hash);
-
+      //we are setting index of the reel here, not hash
       setHash(tempHash[0]);
       setReelName(reel.reelName);
     });
