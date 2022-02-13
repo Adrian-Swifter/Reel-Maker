@@ -49,7 +49,7 @@ function Reels() {
 
       <div className="main__container">
         <div className="left__section">
-          {reels &&
+          {reels && reels.songs.length > 0 ? (
             reels.songs.map((reel, index) => (
               <div key={reel.id}>
                 <div className="accordion" onClick={(e) => openAccordion(e)}>
@@ -124,7 +124,10 @@ function Reels() {
                   </div>
                 </div>
               </div>
-            ))}
+            ))
+          ) : (
+            <h3>No reels yet... :/</h3>
+          )}
         </div>
         <div className="right__section bg-trans"></div>
       </div>

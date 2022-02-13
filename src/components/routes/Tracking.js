@@ -9,7 +9,7 @@ function Tracking() {
     e.currentTarget.nextElementSibling.classList.toggle("block");
     setMoreIcon(!moreIcon);
   };
- 
+
   return (
     <main className="container reels__body">
       <div className="btn__container">
@@ -33,7 +33,7 @@ function Tracking() {
 
       <div className="main__container">
         <div className="left__section">
-          {allEvents &&
+          {allEvents && allEvents.songs.length > 0 ? (
             allEvents.songs
               .slice(0)
               .reverse()
@@ -41,7 +41,9 @@ function Tracking() {
                 <div key={ind}>
                   <div className="accordion" onClick={(e) => openAccordion(e)}>
                     <div className="reel__page">
-                      <div className="reel__name">{event.reelName ? event.reelName : "Reel name"}</div>
+                      <div className="reel__name">
+                        {event.reelName ? event.reelName : "Reel name"}
+                      </div>
                       <div className="share__link_name">{event.id}</div>
                       <div>
                         Opens: <span className="num__of_opens">2</span>
@@ -75,17 +77,17 @@ function Tracking() {
                             eventChangeTime={evi.seekTo}
                             eventSong={evi.songName}
                             eventColor={evi.color}
-                            eventPreposition = {evi.eventNameandIcon.preposition}
+                            eventPreposition={evi.eventNameandIcon.preposition}
                             eventPauseTime={evi.pauseTime}
                             eventStartTime={evi.startTime}
                           />
-                          
-                        ))
-                          
-                        }
+                        ))}
                   </div>
                 </div>
-              ))}
+              ))
+          ) : (
+            <h3>No events yet... :/</h3>
+          )}
         </div>
         <div className="right__section bg-trans"></div>
       </div>
