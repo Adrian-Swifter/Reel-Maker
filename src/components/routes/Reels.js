@@ -88,7 +88,7 @@ function Reels() {
                         songs: songs.filter((song) =>
                           reels.songs[index][0].includes(song.id)
                         ),
-                        hash: `#${reels.songs[index].hash}`,
+                        hash: `#${reels.songs[index].hash[0]}`,
                       }}
                     >
                       <button className="mdc-button mdc-button--raised">
