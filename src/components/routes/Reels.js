@@ -1,5 +1,6 @@
 import useFirestore from "../../hooks/useFirestore";
 import { Link, useLocation } from "react-router-dom";
+import { app } from "../../firebase/firebase_storage";
 
 function Reels() {
   const reels = useFirestore("reels");
@@ -9,6 +10,21 @@ function Reels() {
   const openAccordion = (e) => {
     e.currentTarget.nextElementSibling.classList.toggle("block");
   };
+
+  const addNewHash = (id, index) => {
+    app
+      .firestore()
+      .collection("reels")
+      .doc(id)
+      .update({
+        hash: [
+          ...reels.songs[index].hash,
+          Math.random().toString(36).substring(7),
+        ],
+      });
+  };
+
+  console.log(reels.songs);
 
   return (
     <main className="container reels__body">
@@ -80,24 +96,31 @@ function Reels() {
                         <span className="mdc-button__label">Preview</span>
                       </button>
                     </Link>
-                    <button className="mdc-button mdc-button--raised">
+                    <button
+                      onClick={() => addNewHash(reel.id, index)}
+                      className="mdc-button mdc-button--raised"
+                    >
                       <span className="mdc-button__ripple"></span>
                       <span className="mdc-button__label">Add Share Link</span>
                     </button>
                   </div>
                   <h3>Share links</h3>
-                  <div
-                    style={{ cursor: "pointer" }}
-                    title="Click to copy to clipboard"
-                    onClick={(e) => {
-                      navigator.clipboard.writeText(e.target.innerText);
-                      e.target.innerText = "Copied!";
-                      setTimeout(() => {
-                        e.target.innerText = `${window.location.origin}/reel#${reel.hash}`;
-                      }, 1500);
-                    }}
-                  >
-                    {`${window.location.origin}/reel#${reel.hash}`}
+                  <div style={{ cursor: "pointer" }}>
+                    {Array.from(reel.hash).map((hash, ind) => {
+                      return (
+                        <p
+                          key={ind}
+                          title="Click to copy to clipboard"
+                          onClick={(e) => {
+                            navigator.clipboard.writeText(e.target.innerText);
+                            e.target.innerText = "Copied!";
+                            setTimeout(() => {
+                              e.target.innerText = `${window.location.origin}/reel#${reel.hash[ind]}`;
+                            }, 1500);
+                          }}
+                        >{`${window.location.origin}/reel#${hash}`}</p>
+                      );
+                    })}
                   </div>
                 </div>
               </div>

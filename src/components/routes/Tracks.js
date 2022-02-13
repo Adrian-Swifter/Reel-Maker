@@ -59,7 +59,7 @@ function Tracks() {
     app
       .firestore()
       .collection("reels")
-      .add({ ...[reelSongs], hash, reelName });
+      .add({ ...[reelSongs], hash: [hash], reelName });
   };
   useEffect(() => {
     setFiltered(songs.filter((song) => song.folder === value));

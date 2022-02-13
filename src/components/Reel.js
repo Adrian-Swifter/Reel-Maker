@@ -59,6 +59,7 @@ function Reel() {
         tempHash.push(index);
       }
       hashes.push(reel.hash);
+
       setHash(tempHash[0]);
       setReelName(reel.reelName);
     });
@@ -76,6 +77,7 @@ function Reel() {
         if (allReels.songs[hash][0].includes(song.id)) {
           tempARr.push(song);
         }
+
         setSelectedTrack(tempARr[0]);
         setFilteredSongs(tempARr);
       });
