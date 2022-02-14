@@ -35,14 +35,18 @@ function Tracking() {
         <div className="left__section">
           {allEvents && allEvents.songs.length > 0 ? (
             allEvents.songs
-              .slice(0)
-              .reverse()
+              .sort(
+                (a, b) =>
+                  new Date(b.createdAt.seconds) - new Date(a.createdAt.seconds)
+              )
               .map((event, ind) => (
                 <div key={ind}>
                   <div className="accordion" onClick={(e) => openAccordion(e)}>
                     <div className="reel__page">
                       <div className="reel__name">
-                        {event.reelName ? event.reelName : "Reel name"}
+                        {event.eventInfo[0].reelName
+                          ? event.eventInfo[0].reelName
+                          : "Reel name"}
                       </div>
                       <div className="share__link_name">{event.id}</div>
                       <div>

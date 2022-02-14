@@ -69,7 +69,6 @@ function Reel() {
       hashes.push(reel.hash);
       //we are setting index of the reel here, not hash
       setHash(tempHash[0]);
-      setReelName(reel.reelName);
     });
 
     hashes.includes(
@@ -85,7 +84,7 @@ function Reel() {
         if (allReels.songs[hash][0].includes(song.id)) {
           tempARr.push(song);
         }
-
+        setReelName(allReels.songs[hash].reelName)
         setSelectedTrack(tempARr[0]);
         setFilteredSongs(tempARr);
       });

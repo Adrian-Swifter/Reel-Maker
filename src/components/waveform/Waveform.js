@@ -17,7 +17,7 @@ const formWaveSurferOptions = (ref) => ({
   partialRender: true,
 });
 
-export default function Waveform({ url, hash, songName }) {
+export default function Waveform({ url, hash, songName, reelName }) {
   const waveformRef = useRef(null);
   const wavesurfer = useRef(null);
   const [playing, setPlay] = useState(false);
@@ -50,11 +50,12 @@ export default function Waveform({ url, hash, songName }) {
           icon: "visibility",
         };
         const time = new Date().toLocaleString() + "";
-
+        const createdAt = timestamp();
         const eventData = {
           eventNameandIcon,
           songName,
           time,
+          reelName,
         };
 
         app
@@ -64,6 +65,7 @@ export default function Waveform({ url, hash, songName }) {
           .set(
             {
               eventInfo: firebase.firestore.FieldValue.arrayUnion(eventData),
+              createdAt,
             },
             { merge: true }
           );
@@ -87,6 +89,7 @@ export default function Waveform({ url, hash, songName }) {
         seekTo,
         color,
         time,
+        reelName,
       };
 
       app
@@ -100,7 +103,7 @@ export default function Waveform({ url, hash, songName }) {
           },
           { merge: true }
         );
-        console.log(playing);
+      console.log(playing);
     });
 
     wavesurfer.current.on("pause", function () {
@@ -122,6 +125,7 @@ export default function Waveform({ url, hash, songName }) {
         color,
         time,
         pauseTime,
+        reelName,
       };
 
       if (
@@ -145,7 +149,7 @@ export default function Waveform({ url, hash, songName }) {
       const startTime = convertSecToMin(
         Math.round(wavesurfer.current.getCurrentTime())
       );
-
+      const createdAt = timestamp();
       const eventNameandIcon = {
         name: "Play",
         icon: "play_arrow",
@@ -158,6 +162,7 @@ export default function Waveform({ url, hash, songName }) {
         songName,
         time,
         startTime,
+        reelName,
       };
 
       app
@@ -167,6 +172,7 @@ export default function Waveform({ url, hash, songName }) {
         .set(
           {
             eventInfo: firebase.firestore.FieldValue.arrayUnion(eventData),
+            createdAt,
           },
           { merge: true }
         );
@@ -179,12 +185,13 @@ export default function Waveform({ url, hash, songName }) {
       };
       const time = new Date().toLocaleString() + "";
       const color = "rgb(31, 199, 98)";
-
+      const createdAt = timestamp();
       const eventData = {
         eventNameandIcon,
         songName,
         time,
         color,
+        reelName,
       };
 
       app
@@ -194,6 +201,7 @@ export default function Waveform({ url, hash, songName }) {
         .set(
           {
             eventInfo: firebase.firestore.FieldValue.arrayUnion(eventData),
+            createdAt,
           },
           { merge: true }
         );
