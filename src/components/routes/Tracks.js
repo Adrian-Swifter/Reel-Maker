@@ -56,10 +56,11 @@ function Tracks() {
   console.log(reelSongs);
 
   const addToReels = () => {
+    const createdAt = timestamp();
     app
       .firestore()
       .collection("reels")
-      .add({ ...[reelSongs], hash: [hash], reelName });
+      .add({ ...[reelSongs], hash: [hash], reelName, createdAt });
   };
   useEffect(() => {
     setFiltered(songs.filter((song) => song.folder === value));
