@@ -1,5 +1,5 @@
 import useFirestore from "../../hooks/useFirestore";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { app } from "../../firebase/firebase_storage";
 
 function Reels() {
@@ -78,7 +78,9 @@ function Reels() {
                           .map((song) => (
                             <li key={song.id}>
                               {song.trackName}
-                              <span className="track__duration">(02:07)</span>
+                              <span className="track__duration">
+                                nista za sad
+                              </span>
                             </li>
                           ))}
                       </ol>

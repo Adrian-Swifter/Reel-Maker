@@ -84,7 +84,7 @@ function Reel() {
         if (allReels.songs[hash][0].includes(song.id)) {
           tempARr.push(song);
         }
-        setReelName(allReels.songs[hash].reelName)
+        setReelName(allReels.songs[hash].reelName);
         setSelectedTrack(tempARr[0]);
         setFilteredSongs(tempARr);
       });
