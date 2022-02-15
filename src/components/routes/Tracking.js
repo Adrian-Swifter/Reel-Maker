@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import useFirestore from "../../hooks/useFirestore";
 import Event from "../Event";
+import { app } from "../../firebase/firebase_storage";
 
 function Tracking() {
   const allEvents = useFirestore("events");
@@ -8,6 +9,25 @@ function Tracking() {
   const openAccordion = (e) => {
     e.currentTarget.nextElementSibling.classList.toggle("block");
     setMoreIcon(!moreIcon);
+  };
+
+  const deviceType = () => {
+    const ua = navigator.userAgent;
+    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+      return "Tablet";
+    } else if (
+      /Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(
+        ua
+      )
+    ) {
+      return "Mobile";
+    }
+    return "Desktop";
+  };
+
+  const handleEventDelete = (id) => {
+    alert("Are you sure you want to delete this event collection?");
+    app.firestore().collection("events").doc(id).delete();
   };
 
   return (
@@ -65,7 +85,19 @@ function Tracking() {
                         {moreIcon ? "expand_less" : "expand_more"}
                       </i>
                     </div>
+                    <div
+                      onClick={() => handleEventDelete(event.id)}
+                      className="delete__icon"
+                    >
+                      <i
+                        className="material-icons mdc-button__icon"
+                        aria-hidden="true"
+                      >
+                        delete
+                      </i>
+                    </div>
                   </div>
+
                   <div className="panel">
                     {allEvents &&
                       event.eventInfo
@@ -74,9 +106,10 @@ function Tracking() {
                         .map((evi, index) => (
                           <Event
                             key={index}
+                            eventId={event.id}
                             name={evi.eventNameandIcon.name}
                             iconName={evi.eventNameandIcon.icon}
-                            evenLocation="Belgrade"
+                            deviceType={deviceType}
                             eventTime={evi.time}
                             eventChangeTime={evi.seekTo}
                             eventSong={evi.songName}
@@ -84,6 +117,7 @@ function Tracking() {
                             eventPreposition={evi.eventNameandIcon.preposition}
                             eventPauseTime={evi.pauseTime}
                             eventStartTime={evi.startTime}
+                            handleEventDelete={handleEventDelete}
                           />
                         ))}
                   </div>
