@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import useFirestore from "../../hooks/useFirestore";
 import { Link } from "react-router-dom";
 import { app } from "../../firebase/firebase_storage";
@@ -6,7 +7,6 @@ import ConvertCecToMin from "../../components/utils/ConvertCecToMin";
 function Reels() {
   const reels = useFirestore("reels");
   const { songs } = useFirestore("songs");
-
   const openAccordion = (e) => {
     e.currentTarget.nextElementSibling.classList.toggle("block");
   };
@@ -58,7 +58,15 @@ function Reels() {
                   <div className="accordion" onClick={(e) => openAccordion(e)}>
                     <div className="reel__name reel__page">
                       {reel.reelName ? reel.reelName : "Reel name"}{" "}
-                      <span className="track__duration">(31:39)</span>
+                      <span className="track__duration">
+                        {`(${ConvertCecToMin(
+                          songs
+                            .filter((song) =>
+                              reels.songs[index][0].includes(song.id)
+                            )
+                            .reduce((a, song) => a + song.trackDuration, 0)
+                        )})`}
+                      </span>
                     </div>
                     <div className="kebab__menu_container">
                       <i

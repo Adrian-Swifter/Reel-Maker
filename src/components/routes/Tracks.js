@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import useFirestore from "../../hooks/useFirestore";
 import Button from "../../components/Button";
 import Modal from "../Modal";
+import ConvertCecToMin from "../utils/ConvertCecToMin";
 
 function Tracks() {
   const { songs } = useFirestore("songs");
@@ -221,7 +222,9 @@ function Tracks() {
                       </div>
                       <div className="song">
                         {song.trackName}
-                        <span className="track__duration">(1:24)</span>
+                        <span className="track__duration">{` (${ConvertCecToMin(
+                          song.trackDuration
+                        )})`}</span>
                       </div>
                       <div className="settings">
                         <i
