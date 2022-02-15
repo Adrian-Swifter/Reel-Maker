@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
 import { app, timestamp } from "../../firebase/firebase_storage";
 import firebase from "firebase/app";
+import ConvertCecToMin from "../../components/utils/ConvertCecToMin";
 const formWaveSurferOptions = (ref) => ({
   container: ref,
   waveColor: "gray",
@@ -80,7 +81,7 @@ export default function Waveform({ url, hash, songName, reelName }) {
         icon: "swap_horiz",
         preposition: "to:",
       };
-      const seekTo = convertSecToMin(timeseek);
+      const seekTo = ConvertCecToMin(timeseek);
       const color = "gold";
       const time = new Date().toLocaleString() + "";
       const eventData = {
@@ -108,7 +109,7 @@ export default function Waveform({ url, hash, songName, reelName }) {
 
     wavesurfer.current.on("pause", function () {
       const createdAt = timestamp();
-      const pauseTime = convertSecToMin(
+      const pauseTime = ConvertCecToMin(
         Math.round(wavesurfer.current.getCurrentTime())
       );
       const eventNameandIcon = {
@@ -146,7 +147,7 @@ export default function Waveform({ url, hash, songName, reelName }) {
     });
 
     wavesurfer.current.on("play", function () {
-      const startTime = convertSecToMin(
+      const startTime = ConvertCecToMin(
         Math.round(wavesurfer.current.getCurrentTime())
       );
       const createdAt = timestamp();
@@ -226,18 +227,6 @@ export default function Waveform({ url, hash, songName, reelName }) {
         document.getElementById("loading_flag").style.display = "block";
       }
     }
-  };
-
-  const convertSecToMin = (timestamp) => {
-    const hours = Math.floor(timestamp / 60 / 60);
-
-    const minutes = Math.floor(timestamp / 60) - hours * 60;
-
-    const seconds = Math.round(timestamp % 60);
-
-    const formatted = `${hours}h:${minutes}m:${seconds}s`;
-
-    return formatted;
   };
 
   const handlePlayPause = () => {

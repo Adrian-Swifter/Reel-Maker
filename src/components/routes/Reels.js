@@ -1,6 +1,7 @@
 import useFirestore from "../../hooks/useFirestore";
 import { Link } from "react-router-dom";
 import { app } from "../../firebase/firebase_storage";
+import ConvertCecToMin from "../../components/utils/ConvertCecToMin";
 
 function Reels() {
   const reels = useFirestore("reels");
@@ -79,7 +80,7 @@ function Reels() {
                             <li key={song.id}>
                               {song.trackName}
                               <span className="track__duration">
-                                nista za sad
+                                {` (${ConvertCecToMin(song.trackDuration)})`}
                               </span>
                             </li>
                           ))}
