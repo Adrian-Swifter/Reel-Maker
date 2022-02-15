@@ -32,7 +32,7 @@ function Tracks() {
   const setReelNameHandler = (e) => {
     setReelName(e.target.value);
   };
-  console.log(reelName);
+
   const makeFolder = (e) => {
     setValue(e.target.value);
   };
@@ -53,7 +53,6 @@ function Tracks() {
       setReelSongs(reelSongs.filter((sid) => sid !== songId));
     }
   };
-  console.log(reelSongs);
 
   const addToReels = () => {
     const createdAt = timestamp();
@@ -70,7 +69,6 @@ function Tracks() {
     const file = e.target.files[0];
     const storageRef = app.storage().ref();
     const fileRef = storageRef.child(`${value}/` + file.name);
-
     const collRef = app.firestore().collection("songs");
     fileRef.put(file).on(
       "state_changed",
@@ -84,11 +82,24 @@ function Tracks() {
       },
       async () => {
         const url = await fileRef.getDownloadURL();
+        const audioFile = new Audio(url);
         const folder = value;
         const trackName = file.name;
         const fileSize = `${file.size / 1e6} MB`;
         const createdAt = timestamp();
-        collRef.add({ url, folder, trackName, fileSize, createdAt });
+
+        audioFile.addEventListener("loadedmetadata", () => {
+          const trackDuration = audioFile.duration;
+          collRef.add({
+            url,
+            folder,
+            trackName,
+            fileSize,
+            createdAt,
+            trackDuration,
+          });
+        });
+
         setUrl(url);
       }
     );
