@@ -1,4 +1,3 @@
-import logo from "../assets/logo.png";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Maker from "./routes/Maker";
 import Reels from "./routes/Reels";
@@ -14,7 +13,7 @@ export default function NavigationHeader() {
         <header className="main__header">
           <div className="logo__container">
             <Link to="/" className="logo">
-              <img src={logo} alt="Reel Maker Logo" />
+              <h1>Reel Maker</h1>
             </Link>
           </div>
           <div className="navigation">

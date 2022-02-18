@@ -48,8 +48,12 @@ img {
   max-width: 100%;
 }
 
-.logo__container {
-  max-width: 300px;
+.logo__container a {
+  text-decoration: none;
+}
+
+.logo__container h1 {
+  color: #000000;
 }
 
 .manin__menu_ul {
