@@ -30,6 +30,7 @@ function Tracks() {
   const [reelSongs, setReelSongs] = useState([]);
   const [reelName, setReelName] = useState(hash);
   const [file, setFile] = useState({});
+  const [tags, setTags] = useState([]);
 
   const setReelNameHandler = (e) => {
     setReelName(e.target.value);
@@ -37,6 +38,11 @@ function Tracks() {
 
   const makeFolder = (e) => {
     setValue(e.target.value);
+  };
+
+  const handleTrackTags = (e) => {
+    const tags = e.target.value.split(",");
+    setTags(tags);
   };
 
   const handleModal = () => {
@@ -92,6 +98,7 @@ function Tracks() {
         const trackName = file.name;
         const fileSize = `${file.size / 1e6} MB`;
         const createdAt = timestamp();
+        const trimmedTags = tags.map((tag) => tag.trim());
 
         audioFile.addEventListener("loadedmetadata", () => {
           const trackDuration = audioFile.duration;
@@ -102,6 +109,7 @@ function Tracks() {
             fileSize,
             createdAt,
             trackDuration,
+            trimmedTags,
           });
         });
 
@@ -251,6 +259,7 @@ function Tracks() {
         makeFolder={makeFolder}
         modalStyle={modalStyle}
         handleTrackUpload={handleTrackUpload}
+        handleTrackTags={handleTrackTags}
       />
     </div>
   );

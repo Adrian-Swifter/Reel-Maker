@@ -7,12 +7,14 @@ const Modal = ({
   makeFolder,
   modalStyle,
   handleTrackUpload,
+  handleTrackTags,
 }) => {
   const [visibility, setVisibility] = useState(false);
 
   const handleVisibility = () => {
     setVisibility(!visibility);
   };
+
   return (
     <div className={`modal ${modalStyle ? "show" : ""}`}>
       <Button
@@ -42,6 +44,9 @@ const Modal = ({
       <div>
         <input className="file-input" type="file" onChange={onChange} />
         <progress value={progress} max="100"></progress>
+      </div>
+      <div>
+        <input className="tag-input" type="text" onChange={handleTrackTags} />
       </div>
       <button
         className="mdc-button mdc-button--raised"
