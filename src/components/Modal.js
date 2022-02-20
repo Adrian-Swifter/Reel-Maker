@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import Button from "../components/Button";
 
-const Modal = ({ onChange, progress, makeFolder, modalStyle }) => {
+const Modal = ({
+  onChange,
+  progress,
+  makeFolder,
+  modalStyle,
+  handleTrackUpload,
+}) => {
   const [visibility, setVisibility] = useState(false);
 
   const handleVisibility = () => {
@@ -22,22 +28,31 @@ const Modal = ({ onChange, progress, makeFolder, modalStyle }) => {
           visibility ? "" : "hide"
         }`}
       >
-        <span className="mdc-text-field__ripple"></span>
+        <span className="mdc-text-field__ripple">Click below to type...</span>
 
         <input
           className="mdc-text-field__input"
           type="text"
+          placeholder="Enter folder name"
           aria-labelledby="my-label-id"
           onChange={makeFolder}
         />
-        <span className="mdc-line-ripple"></span>
       </label>
 
       <div>
         <input className="file-input" type="file" onChange={onChange} />
         <progress value={progress} max="100"></progress>
       </div>
-      <Button buttonName="Upload" buttonIcon="publish" />
+      <button
+        className="mdc-button mdc-button--raised"
+        onClick={handleTrackUpload}
+      >
+        <span className="mdc-button__ripple"></span>
+        <i className="material-icons mdc-button__icon" aria-hidden="true">
+          upload
+        </i>
+        <span className="mdc-button__label">Upload</span>
+      </button>
     </div>
   );
 };

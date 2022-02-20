@@ -29,6 +29,7 @@ function Tracks() {
   const [ind, setInd] = useState(0);
   const [reelSongs, setReelSongs] = useState([]);
   const [reelName, setReelName] = useState(hash);
+  const [file, setFile] = useState({});
 
   const setReelNameHandler = (e) => {
     setReelName(e.target.value);
@@ -67,7 +68,10 @@ function Tracks() {
   }, [value]);
 
   const onChange = (e) => {
-    const file = e.target.files[0];
+    setFile(e.target.files[0]);
+  };
+
+  const handleTrackUpload = () => {
     const storageRef = app.storage().ref();
     const fileRef = storageRef.child(`${value}/` + file.name);
     const collRef = app.firestore().collection("songs");
@@ -246,6 +250,7 @@ function Tracks() {
         onChange={onChange}
         makeFolder={makeFolder}
         modalStyle={modalStyle}
+        handleTrackUpload={handleTrackUpload}
       />
     </div>
   );
