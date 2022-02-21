@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "../components/Button";
 
-const Modal = ({
+const UploadModal = ({
   onChange,
   progress,
   makeFolder,
@@ -62,4 +62,4 @@ const Modal = ({
   );
 };
 
-export default Modal;
+export default UploadModal;

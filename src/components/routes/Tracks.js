@@ -2,8 +2,22 @@ import { app, timestamp } from "../../firebase/firebase_storage";
 import { useState, useEffect } from "react";
 import useFirestore from "../../hooks/useFirestore";
 import Button from "../../components/Button";
-import Modal from "../Modal";
+import UploadModal from "../Modal";
 import ConvertCecToMin from "../utils/ConvertCecToMin";
+import Modal from "react-modal";
+
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
+
+Modal.setAppElement("#root");
 
 function Tracks() {
   const { songs } = useFirestore("songs");
@@ -31,6 +45,18 @@ function Tracks() {
   const [reelName, setReelName] = useState(hash);
   const [file, setFile] = useState({});
   const [tags, setTags] = useState([]);
+  const [songId, setSongId] = useState("");
+
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  function openModal(songId) {
+    setIsOpen(true);
+    setSongId(songId);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
 
   const setReelNameHandler = (e) => {
     setReelName(e.target.value);
@@ -242,6 +268,7 @@ function Tracks() {
                         <i
                           className="material-icons mdc-button__icon"
                           aria-hidden="true"
+                          onClick={() => openModal(song.id)}
                         >
                           settings
                         </i>
@@ -253,7 +280,7 @@ function Tracks() {
           </div>
         </div>
       </div>
-      <Modal
+      <UploadModal
         progress={progress}
         onChange={onChange}
         makeFolder={makeFolder}
@@ -261,6 +288,31 @@ function Tracks() {
         handleTrackUpload={handleTrackUpload}
         handleTrackTags={handleTrackTags}
       />
+
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <h2>Track details</h2>
+        <button onClick={closeModal}>close</button>
+
+        {songs
+          .filter((song) => song.id === songId)
+          .map((track) => (
+            <ul key={track.id}>
+              <li>{track.trackName}</li>
+              <li>
+                {track.trimmedTags
+                  ? track.trimmedTags
+                  : "No tags for this track"}
+              </li>
+              <li>{`${ConvertCecToMin(track.trackDuration)}`}</li>
+              <li>{track.fileSize}</li>
+            </ul>
+          ))}
+      </Modal>
     </div>
   );
 }
