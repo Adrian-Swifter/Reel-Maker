@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import useFirestore from "../../hooks/useFirestore";
 import { Link } from "react-router-dom";
 import { app } from "../../firebase/firebase_storage";

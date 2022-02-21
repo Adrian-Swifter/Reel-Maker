@@ -576,3 +576,13 @@ li.list__item:last-child {
   position: absolute;
   right: -40px;
 }
+
+.tag {
+  margin: 2px;
+  display: inline-block;
+  background: #03dac5;
+  border-radius: 7px;
+  padding: 2px 5px;
+  color: white;
+  font-size: 0.8rem;
+}

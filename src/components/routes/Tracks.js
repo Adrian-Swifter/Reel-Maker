@@ -14,6 +14,7 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
+    minWidth: "500px",
   },
 };
 
@@ -46,8 +47,8 @@ function Tracks() {
   const [file, setFile] = useState({});
   const [tags, setTags] = useState([]);
   const [songId, setSongId] = useState("");
-
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [trackName, setTrackName] = useState("");
 
   function openModal(songId) {
     setIsOpen(true);
@@ -71,6 +72,38 @@ function Tracks() {
     setTags(tags);
   };
 
+  const handleTracknameInputChange = (e) => {
+    const trackName = e.target.value;
+    setTrackName(trackName);
+  };
+
+  const addNewTags = (id) => {
+    console.log(tags, "before");
+    let indexOfSong;
+    songs.filter((song, index) => {
+      if (song.id === id) {
+        indexOfSong = index;
+      }
+    });
+    const currentTags = songs[indexOfSong].trimmedTags
+      ? songs[indexOfSong].trimmedTags
+      : [];
+    app
+      .firestore()
+      .collection("songs")
+      .doc(id)
+      .update({
+        trimmedTags: [...currentTags, ...tags],
+      });
+    setTags("");
+  };
+
+  const updateTrackName = (id) => {
+    app.firestore().collection("songs").doc(id).update({
+      trackName: trackName,
+    });
+  };
+  console.log(tags, "after");
   const handleModal = () => {
     setModalStyle(!modalStyle);
   };
@@ -140,6 +173,7 @@ function Tracks() {
         });
 
         setUrl(url);
+        setTags("");
       }
     );
   };
@@ -287,6 +321,7 @@ function Tracks() {
         modalStyle={modalStyle}
         handleTrackUpload={handleTrackUpload}
         handleTrackTags={handleTrackTags}
+        tags={tags}
       />
 
       <Modal
@@ -302,14 +337,36 @@ function Tracks() {
           .filter((song) => song.id === songId)
           .map((track) => (
             <ul key={track.id}>
-              <li>{track.trackName}</li>
               <li>
-                {track.trimmedTags
-                  ? track.trimmedTags
-                  : "No tags for this track"}
+                Name:{" "}
+                <input
+                  type="text"
+                  defaultValue={track.trackName}
+                  onChange={handleTracknameInputChange}
+                />
+                <button onClick={() => updateTrackName(track.id)}>
+                  Update name
+                </button>
               </li>
-              <li>{`${ConvertCecToMin(track.trackDuration)}`}</li>
-              <li>{track.fileSize}</li>
+              <li>
+                Tags:
+                {track.trimmedTags
+                  ? track.trimmedTags.map((tag, index) => (
+                      <span className="tag" key={index}>
+                        {tag}
+                      </span>
+                    ))
+                  : "No tags for this track "}
+                <input
+                  type="text"
+                  placeholder="Enter comma separated tags"
+                  onChange={handleTrackTags}
+                  value={tags}
+                />
+                <button onClick={() => addNewTags(track.id)}>Add tags</button>
+              </li>
+              <li>Duration: {`${ConvertCecToMin(track.trackDuration)}`}</li>
+              <li>File Size: {track.fileSize}</li>
             </ul>
           ))}
       </Modal>

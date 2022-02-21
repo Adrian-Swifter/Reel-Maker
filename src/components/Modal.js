@@ -8,6 +8,7 @@ const UploadModal = ({
   modalStyle,
   handleTrackUpload,
   handleTrackTags,
+  tags
 }) => {
   const [visibility, setVisibility] = useState(false);
 
@@ -46,7 +47,7 @@ const UploadModal = ({
         <progress value={progress} max="100"></progress>
       </div>
       <div>
-        <input className="tag-input" type="text" onChange={handleTrackTags} />
+        <input className="tag-input" type="text" onChange={handleTrackTags} placeholder="Enter track tags" value={tags}/>
       </div>
       <button
         className="mdc-button mdc-button--raised"
