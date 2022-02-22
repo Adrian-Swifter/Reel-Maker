@@ -78,7 +78,6 @@ function Tracks() {
   };
 
   const addNewTags = (id) => {
-    console.log(tags, "before");
     let indexOfSong;
     songs.filter((song, index) => {
       if (song.id === id) {
@@ -103,7 +102,7 @@ function Tracks() {
       trackName: trackName,
     });
   };
-  console.log(tags, "after");
+
   const handleModal = () => {
     setModalStyle(!modalStyle);
   };
@@ -128,6 +127,7 @@ function Tracks() {
       .collection("reels")
       .add({ ...[reelSongs], hash: [hash], reelName, createdAt });
   };
+  
   useEffect(() => {
     setFiltered(songs.filter((song) => song.folder === value));
   }, [value]);
