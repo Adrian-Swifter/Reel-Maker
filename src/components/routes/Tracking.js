@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import useFirestore from "../../hooks/useFirestore";
 import Event from "../Event";
 import { app } from "../../firebase/firebase_storage";
@@ -6,6 +6,9 @@ import { app } from "../../firebase/firebase_storage";
 function Tracking() {
   const allEvents = useFirestore("events");
   const [moreIcon, setMoreIcon] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [filtered, setFiltered] = useState([]);
+
   const openAccordion = (e) => {
     e.currentTarget.nextElementSibling.classList.toggle("block");
     setMoreIcon(!moreIcon);
@@ -30,6 +33,25 @@ function Tracking() {
     app.firestore().collection("events").doc(id).delete();
   };
 
+  const handleSearchSongs = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  useEffect(() => {
+    if (searchText === "") {
+      setFiltered(allEvents.songs);
+    }
+    const filteredSearchSongs = allEvents.songs.filter(
+      (event) =>
+        event.eventInfo[0].reelName
+          .toString()
+          .toLowerCase()
+          .includes(searchText.toLowerCase()) ||
+        event.id.toString().toLowerCase().includes(searchText.toLowerCase())
+    );
+    setFiltered(filteredSearchSongs);
+  }, [searchText, allEvents.songs]);
+
   return (
     <main className="container reels__body">
       <div className="btn__container">
@@ -38,7 +60,8 @@ function Tracking() {
             <input
               type="text"
               id="trackSearchInput"
-              placeholder="Seach reels"
+              placeholder="Seach by reel name of by share link name"
+              onChange={handleSearchSongs}
             />
 
             <i
@@ -54,7 +77,7 @@ function Tracking() {
       <div className="main__container">
         <div className="left__section">
           {allEvents && allEvents.songs.length > 0 ? (
-            allEvents.songs
+            filtered
               .sort(
                 (a, b) =>
                   new Date(b.createdAt.seconds) - new Date(a.createdAt.seconds)
