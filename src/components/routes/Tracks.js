@@ -1,5 +1,6 @@
 import { app, timestamp } from "../../firebase/firebase_storage";
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router";
 import useFirestore from "../../hooks/useFirestore";
 import Button from "../../components/Button";
 import UploadModal from "../Modal";
@@ -31,14 +32,15 @@ function Tracks() {
   const [modalStyle, setModalStyle] = useState(false);
   const [ind, setInd] = useState(0);
   const [reelSongs, setReelSongs] = useState([]);
-  const [reelName, setReelName] = useState(hash);
+  const [reelName, setReelName] = useState("");
   const [file, setFile] = useState({});
   const [tags, setTags] = useState([]);
   const [songId, setSongId] = useState("");
   const [modalIsOpen, setIsOpen] = useState(false);
   const [trackName, setTrackName] = useState("");
   const [searchText, setSearchText] = useState("");
-
+  const location = useLocation();
+  console.log(location.pathname);
   const uniqueSongs = [];
   let tempArr = [];
   let counts = {};
@@ -123,10 +125,18 @@ function Tracks() {
 
   const addToReels = () => {
     const createdAt = timestamp();
-    app
-      .firestore()
-      .collection("reels")
-      .add({ ...[reelSongs], hash: [hash], reelName, createdAt });
+    if (reelSongs.length > 0) {
+      app
+        .firestore()
+        .collection("reels")
+        .add({ ...[reelSongs], hash: [hash], reelName, createdAt });
+      setReelSongs([]);
+      setReelName("");
+    } else if (reelName === "") {
+      alert("Please enter the new reel name");
+    } else {
+      alert("You need to add some tracks first");
+    }
   };
 
   useEffect(() => {
@@ -208,9 +218,18 @@ function Tracks() {
     );
   };
 
+  console.log(reelSongs);
+
   return (
     <div className="container">
-      <div className="btn__container">
+      <div
+        style={
+          location.pathname.includes("tracks")
+            ? { display: "block" }
+            : { display: "none" }
+        }
+        className="btn__container"
+      >
         <Button
           buttonName="Upload Tracks"
           buttonIcon="file_upload"
@@ -257,12 +276,20 @@ function Tracks() {
             ))}
         </div>
         <div className="right__section">
-          <button onClick={addToReels}>Choose Tracks</button>
-          <input
-            onChange={setReelNameHandler}
-            type="text"
-            placeholder="Name of the reel"
-          />
+          <div
+            style={
+              location.pathname.includes("maker")
+                ? { display: "block" }
+                : { display: "none" }
+            }
+          >
+            <input
+              onChange={setReelNameHandler}
+              type="text"
+              placeholder="Name of the new reel"
+            />
+            <button onClick={addToReels}>Add Tracks To New Reel</button>
+          </div>
           <div className="track__search_and_kebab_container">
             <div className="search__input_contaner">
               <input
@@ -345,15 +372,23 @@ function Tracks() {
           </div>
         </div>
       </div>
-      <UploadModal
-        progress={progress}
-        onChange={onChange}
-        makeFolder={makeFolder}
-        modalStyle={modalStyle}
-        handleTrackUpload={handleTrackUpload}
-        handleTrackTags={handleTrackTags}
-        tags={tags}
-      />
+      <div
+        style={
+          location.pathname.includes("tracks")
+            ? { display: "block" }
+            : { display: "none" }
+        }
+      >
+        <UploadModal
+          progress={progress}
+          onChange={onChange}
+          makeFolder={makeFolder}
+          modalStyle={modalStyle}
+          handleTrackUpload={handleTrackUpload}
+          handleTrackTags={handleTrackTags}
+          tags={tags}
+        />
+      </div>
 
       <Modal
         isOpen={modalIsOpen}

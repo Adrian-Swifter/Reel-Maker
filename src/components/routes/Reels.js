@@ -45,6 +45,7 @@ function Reels() {
     setFiltered(filteredSearchSongs);
   }, [searchText, reels.songs]);
 
+  console.log(filtered);
   return (
     <main className="container reels__body">
       <div className="btn__container">
@@ -104,7 +105,7 @@ function Reels() {
                       <ol>
                         {songs
                           .filter((song) =>
-                            reels.songs[index][0].includes(song.id)
+                            filtered[index][0].includes(song.id)
                           )
                           .map((song) => (
                             <li key={song.id}>
@@ -121,9 +122,9 @@ function Reels() {
                         to={{
                           pathname: "/reel",
                           songs: songs.filter((song) =>
-                            reels.songs[index][0].includes(song.id)
+                          filtered[index][0].includes(song.id)
                           ),
-                          hash: `#${reels.songs[index].hash[0]}`,
+                          hash: `#${filtered[index].hash[0]}`,
                         }}
                       >
                         <button className="mdc-button mdc-button--raised">
