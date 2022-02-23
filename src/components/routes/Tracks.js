@@ -49,6 +49,7 @@ function Tracks() {
   const [songId, setSongId] = useState("");
   const [modalIsOpen, setIsOpen] = useState(false);
   const [trackName, setTrackName] = useState("");
+  const [searchText, setSearchText] = useState("");
 
   function openModal(songId) {
     setIsOpen(true);
@@ -127,13 +128,42 @@ function Tracks() {
       .collection("reels")
       .add({ ...[reelSongs], hash: [hash], reelName, createdAt });
   };
-  
+
   useEffect(() => {
     setFiltered(songs.filter((song) => song.folder === value));
   }, [value]);
 
+  useEffect(() => {
+    const filteredSearchSongs = songs.filter((song) => {
+      const booleanArray = [];
+
+      song.trimmedTags &&
+        song.trimmedTags.map((tag) =>
+          booleanArray.push(
+            tag.toString().toLowerCase().includes(searchText.toLowerCase())
+          )
+        );
+
+      return (
+        song.trackName
+          .toString()
+          .toLowerCase()
+          .includes(searchText.toLowerCase()) || booleanArray.includes(true)
+      );
+    });
+    setFiltered(filteredSearchSongs);
+
+    if (searchText === "") {
+      setFiltered([]);
+    }
+  }, [searchText]);
+
   const onChange = (e) => {
     setFile(e.target.files[0]);
+  };
+
+  const handleSearchSongs = (e) => {
+    setSearchText(e.target.value);
   };
 
   const handleTrackUpload = () => {
@@ -239,6 +269,7 @@ function Tracks() {
                 type="text"
                 id="trackSearchInput"
                 placeholder="Filter by name or tag"
+                onChange={(e) => handleSearchSongs(e)}
               />
 
               <i
