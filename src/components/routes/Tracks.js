@@ -22,19 +22,7 @@ Modal.setAppElement("#root");
 
 function Tracks() {
   const { songs } = useFirestore("songs");
-  const uniqueSongs = [];
   let hash = Math.random().toString(36).substring(7);
-  let tempArr = [];
-  let counts = {};
-  songs.forEach((song) => {
-    let tracksNum = song.folder;
-    counts[tracksNum] = counts[tracksNum] ? counts[tracksNum] + 1 : 1;
-    if (!tempArr.includes(song.folder)) {
-      tempArr.push(song.folder);
-      uniqueSongs.push(song);
-    }
-  });
-
   const [value, setValue] = useState("Unfiled");
   const [filtered, setFiltered] = useState([]);
   const [progress, setProgress] = useState(0);
@@ -50,6 +38,18 @@ function Tracks() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [trackName, setTrackName] = useState("");
   const [searchText, setSearchText] = useState("");
+
+  const uniqueSongs = [];
+  let tempArr = [];
+  let counts = {};
+  songs.forEach((song) => {
+    let tracksNum = song.folder;
+    counts[tracksNum] = counts[tracksNum] ? counts[tracksNum] + 1 : 1;
+    if (!tempArr.includes(song.folder)) {
+      tempArr.push(song.folder);
+      uniqueSongs.push(song);
+    }
+  });
 
   function openModal(songId) {
     setIsOpen(true);

@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import useFirestore from "../../hooks/useFirestore";
 import { Link } from "react-router-dom";
 import { app } from "../../firebase/firebase_storage";
@@ -9,6 +10,8 @@ function Reels() {
   const openAccordion = (e) => {
     e.currentTarget.nextElementSibling.classList.toggle("block");
   };
+  const [searchText, setSearchText] = useState("");
+  const [filtered, setFiltered] = useState([]);
 
   const addNewHash = (id, index) => {
     app
@@ -23,6 +26,25 @@ function Reels() {
       });
   };
 
+  const handleSearchSongs = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  useEffect(() => {
+    if (searchText === "") {
+      setFiltered(reels.songs);
+    }
+    const filteredSearchSongs =
+      reels.songs &&
+      reels.songs.filter((reel) =>
+        reel.reelName
+          .toString()
+          .toLowerCase()
+          .includes(searchText.toLowerCase())
+      );
+    setFiltered(filteredSearchSongs);
+  }, [searchText, reels.songs]);
+
   return (
     <main className="container reels__body">
       <div className="btn__container">
@@ -32,6 +54,7 @@ function Reels() {
               type="text"
               id="trackSearchInput"
               placeholder="Seach reels"
+              onChange={handleSearchSongs}
             />
 
             <i
@@ -47,7 +70,7 @@ function Reels() {
       <div className="main__container">
         <div className="left__section">
           {reels && reels.songs.length > 0 ? (
-            reels.songs
+            filtered
               .sort(
                 (a, b) =>
                   new Date(b.createdAt.seconds) - new Date(a.createdAt.seconds)
