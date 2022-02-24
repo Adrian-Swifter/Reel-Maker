@@ -4,7 +4,7 @@ export default function NavigationHeader() {
   const location = useLocation();
 
   return (
-    <div style={location.songs ? { display: "block" } : { display: "none" }}>
+    <div style={location.pathname !== "/reel" ? { display: "block" } : { display: "none" }}>
       <header className="main__header">
         <div className="logo__container">
           <Link to="/" className="logo">
