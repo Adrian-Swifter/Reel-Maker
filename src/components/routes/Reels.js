@@ -45,7 +45,6 @@ function Reels() {
     setFiltered(filteredSearchSongs);
   }, [searchText, reels.songs]);
 
-  console.log(filtered);
   return (
     <main className="container reels__body">
       <div className="btn__container">
@@ -122,7 +121,7 @@ function Reels() {
                         to={{
                           pathname: "/reel",
                           songs: songs.filter((song) =>
-                          filtered[index][0].includes(song.id)
+                            filtered[index][0].includes(song.id)
                           ),
                           hash: `#${filtered[index].hash[0]}`,
                         }}
