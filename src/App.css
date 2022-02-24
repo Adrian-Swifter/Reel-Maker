@@ -35,6 +35,10 @@ ul li {
   margin: auto;
 }
 
+.ReactModal__Content .container {
+  width: 100%;
+}
+
 .main__header {
   background-color: #03dac5;
   display: flex;
@@ -200,7 +204,7 @@ li.list__item:last-child {
 }
 
 .left__section {
-  width: 60%;
+  width: 45%;
 }
 
 .folder {
