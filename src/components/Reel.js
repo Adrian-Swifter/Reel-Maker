@@ -6,6 +6,9 @@ import useFirestore from "../hooks/useFirestore";
 import JsZip from "jszip";
 import FileSaver from "file-saver";
 import NotFound from "../components/NotFound";
+import NavigationMenu from "./reelComponents/NavigationMenu";
+import About from "./reelComponents/About";
+import Projects from "./reelComponents/Projects";
 
 function Reel() {
   const location = useLocation();
@@ -96,18 +99,25 @@ function Reel() {
         <NotFound />
       ) : (
         <>
-          <Waveform
-            url={selectedTrack.url}
-            hash={location.hash}
-            songName={selectedTrack && selectedTrack.trackName}
-            reelName={reelName}
-          />
+          <NavigationMenu />
+          <div className="about__wrapper">
+            <div className="playlist__wrapper">
+              <Waveform
+                url={selectedTrack.url}
+                hash={location.hash}
+                songName={selectedTrack && selectedTrack.trackName}
+                reelName={reelName}
+              />
 
-          <PlayList
-            tracks={filteredSongs}
-            selectedTrack={selectedTrack}
-            setSelectedTrack={setSelectedTrack}
-          />
+              <PlayList
+                tracks={filteredSongs}
+                selectedTrack={selectedTrack}
+                setSelectedTrack={setSelectedTrack}
+              />
+            </div>
+            <About />
+            <Projects />
+          </div>
           <button onClick={() => handleDownload()}>Download Tracks</button>
         </>
       )}

@@ -23,6 +23,7 @@ h1,
 
 ul {
   padding: 0;
+  margin: 0;
 }
 
 ul li {
@@ -589,4 +590,34 @@ li.list__item:last-child {
   padding: 2px 5px;
   color: white;
   font-size: 0.8rem;
+}
+
+/* REEL */
+.navigation__reel-wrapper {
+  display: flex;
+}
+
+.navigation__reel-wrapper nav {
+  flex: 3;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.navigation__reel-wrapper ul {
+  display: flex;
+}
+
+.navigation__reel-wrapper ul li {
+  margin-right: 3rem;
+  padding: 1rem;
+}
+
+.navigation__reel-wrapper ul li a {
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.reel__logo-container {
+  flex: 1;
+  padding: 1rem;
 }
