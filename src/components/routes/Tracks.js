@@ -1,6 +1,7 @@
 import { app, timestamp } from "../../firebase/firebase_storage";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router";
+import { Link } from "react-router-dom";
 import useFirestore from "../../hooks/useFirestore";
 import Button from "../../components/Button";
 import UploadModal from "../Modal";
@@ -21,7 +22,7 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-function Tracks() {
+function Tracks({ user }) {
   const { songs } = useFirestore("songs");
   let hash = Math.random().toString(36).substring(7);
   const [value, setValue] = useState("Unfiled");
@@ -222,220 +223,234 @@ function Tracks() {
 
   return (
     <div className="container">
-      <div
-        style={
-          location.pathname.includes("tracks")
-            ? { display: "block" }
-            : { display: "none" }
-        }
-        className="btn__container"
-      >
-        <Button
-          buttonName="Upload Tracks"
-          buttonIcon="file_upload"
-          handleModal={handleModal}
-        />
-      </div>
-      <div className="main__container">
-        <div className="left__section">
-          {songs &&
-            uniqueSongs.map((song, index) => (
+      {!user ? (
+        <div>
+          {" "}
+          Please log in to see this page <Link to="/">Login</Link>
+        </div>
+      ) : (
+        <>
+          <div
+            style={
+              location.pathname.includes("tracks")
+                ? { display: "block" }
+                : { display: "none" }
+            }
+            className="btn__container"
+          >
+            <Button
+              buttonName="Upload Tracks"
+              buttonIcon="file_upload"
+              handleModal={handleModal}
+            />
+          </div>
+          <div className="main__container">
+            <div className="left__section">
+              {songs &&
+                uniqueSongs.map((song, index) => (
+                  <div
+                    className={`folder ${index === ind ? "bg__on_click" : ""}`}
+                    key={song.id}
+                    onClick={(e) => handleFolderClick(song.folder, index, e)}
+                  >
+                    <div className="icon__holder">
+                      <i
+                        className="material-icons mdc-button__icon"
+                        aria-hidden="true"
+                      >
+                        folder
+                      </i>
+                    </div>
+                    <div className="text__and_menu">
+                      <div className="folder__text_container">
+                        <h3 className="folder__title">{song.folder}</h3>
+                        <div className="num__of_tracks_container">
+                          <span className="num__of_tracks">
+                            {`${counts[song.folder]} `}
+                          </span>
+                          tracks
+                        </div>
+                      </div>
+                      <div className="kebab__menu_container">
+                        <i
+                          className="material-icons mdc-button__icon"
+                          aria-hidden="true"
+                        >
+                          more_vert
+                        </i>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+            </div>
+            <div className="right__section">
               <div
-                className={`folder ${index === ind ? "bg__on_click" : ""}`}
-                key={song.id}
-                onClick={(e) => handleFolderClick(song.folder, index, e)}
+                style={
+                  location.pathname.includes("maker")
+                    ? { display: "block" }
+                    : { display: "none" }
+                }
               >
-                <div className="icon__holder">
+                <input
+                  onChange={setReelNameHandler}
+                  type="text"
+                  placeholder="Name of the new reel"
+                />
+                <button onClick={addToReels}>Add Tracks To New Reel</button>
+              </div>
+              <div className="track__search_and_kebab_container">
+                <div className="search__input_contaner">
+                  <input
+                    type="text"
+                    id="trackSearchInput"
+                    placeholder="Filter by name or tag"
+                    onChange={(e) => handleSearchSongs(e)}
+                  />
+
+                  <i
+                    className="material-icons mdc-button__icon search__icon"
+                    aria-hidden="true"
+                  >
+                    search
+                  </i>
+                </div>
+                <div className="kebab__menu_container">
                   <i
                     className="material-icons mdc-button__icon"
                     aria-hidden="true"
                   >
-                    folder
+                    more_vert
                   </i>
                 </div>
-                <div className="text__and_menu">
-                  <div className="folder__text_container">
-                    <h3 className="folder__title">{song.folder}</h3>
-                    <div className="num__of_tracks_container">
-                      <span className="num__of_tracks">
-                        {`${counts[song.folder]} `}
-                      </span>
-                      tracks
-                    </div>
-                  </div>
-                  <div className="kebab__menu_container">
-                    <i
-                      className="material-icons mdc-button__icon"
-                      aria-hidden="true"
-                    >
-                      more_vert
-                    </i>
-                  </div>
-                </div>
               </div>
-            ))}
-        </div>
-        <div className="right__section">
+
+              <div className="tracks__view_container">
+                {songs &&
+                  filtered.map((song) => (
+                    <div className="track__wrapper" key={song.id}>
+                      <div className="mdc-form-field">
+                        <div className="mdc-checkbox">
+                          <input
+                            type="checkbox"
+                            className="mdc-checkbox__native-control"
+                            id="checkbox-1"
+                            onChange={() => onCheckboxClick(song.id)}
+                            defaultChecked={reelSongs.includes(song.id)}
+                          />
+                          <div className="mdc-checkbox__background">
+                            <svg
+                              className="mdc-checkbox__checkmark"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                className="mdc-checkbox__checkmark-path"
+                                fill="none"
+                                d="M1.73,12.91 8.1,19.28 22.79,4.59"
+                              />
+                            </svg>
+                            <div className="mdc-checkbox__mixedmark"></div>
+                          </div>
+                          <div className="mdc-checkbox__ripple"></div>
+                        </div>
+                        <div className="track">
+                          <div className="play__button">
+                            <i
+                              className="material-icons mdc-button__icon"
+                              aria-hidden="true"
+                            >
+                              play_circle_filled
+                            </i>
+                          </div>
+                          <div className="song">
+                            {song.trackName}
+                            <span className="track__duration">{` (${ConvertCecToMin(
+                              song.trackDuration
+                            )})`}</span>
+                          </div>
+                          <div className="settings">
+                            <i
+                              className="material-icons mdc-button__icon"
+                              aria-hidden="true"
+                              onClick={() => openModal(song.id)}
+                            >
+                              settings
+                            </i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </div>
           <div
             style={
-              location.pathname.includes("maker")
+              location.pathname.includes("tracks")
                 ? { display: "block" }
                 : { display: "none" }
             }
           >
-            <input
-              onChange={setReelNameHandler}
-              type="text"
-              placeholder="Name of the new reel"
+            <UploadModal
+              progress={progress}
+              onChange={onChange}
+              makeFolder={makeFolder}
+              modalStyle={modalStyle}
+              handleTrackUpload={handleTrackUpload}
+              handleTrackTags={handleTrackTags}
+              tags={tags}
             />
-            <button onClick={addToReels}>Add Tracks To New Reel</button>
-          </div>
-          <div className="track__search_and_kebab_container">
-            <div className="search__input_contaner">
-              <input
-                type="text"
-                id="trackSearchInput"
-                placeholder="Filter by name or tag"
-                onChange={(e) => handleSearchSongs(e)}
-              />
-
-              <i
-                className="material-icons mdc-button__icon search__icon"
-                aria-hidden="true"
-              >
-                search
-              </i>
-            </div>
-            <div className="kebab__menu_container">
-              <i className="material-icons mdc-button__icon" aria-hidden="true">
-                more_vert
-              </i>
-            </div>
           </div>
 
-          <div className="tracks__view_container">
-            {songs &&
-              filtered.map((song) => (
-                <div className="track__wrapper" key={song.id}>
-                  <div className="mdc-form-field">
-                    <div className="mdc-checkbox">
-                      <input
-                        type="checkbox"
-                        className="mdc-checkbox__native-control"
-                        id="checkbox-1"
-                        onChange={() => onCheckboxClick(song.id)}
-                        defaultChecked={reelSongs.includes(song.id)}
-                      />
-                      <div className="mdc-checkbox__background">
-                        <svg
-                          className="mdc-checkbox__checkmark"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            className="mdc-checkbox__checkmark-path"
-                            fill="none"
-                            d="M1.73,12.91 8.1,19.28 22.79,4.59"
-                          />
-                        </svg>
-                        <div className="mdc-checkbox__mixedmark"></div>
-                      </div>
-                      <div className="mdc-checkbox__ripple"></div>
-                    </div>
-                    <div className="track">
-                      <div className="play__button">
-                        <i
-                          className="material-icons mdc-button__icon"
-                          aria-hidden="true"
-                        >
-                          play_circle_filled
-                        </i>
-                      </div>
-                      <div className="song">
-                        {song.trackName}
-                        <span className="track__duration">{` (${ConvertCecToMin(
-                          song.trackDuration
-                        )})`}</span>
-                      </div>
-                      <div className="settings">
-                        <i
-                          className="material-icons mdc-button__icon"
-                          aria-hidden="true"
-                          onClick={() => openModal(song.id)}
-                        >
-                          settings
-                        </i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+          <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            style={customStyles}
+            contentLabel="Example Modal"
+          >
+            <h2>Track details</h2>
+            <button onClick={closeModal}>close</button>
+
+            {songs
+              .filter((song) => song.id === songId)
+              .map((track) => (
+                <ul key={track.id}>
+                  <li>
+                    Name:{" "}
+                    <input
+                      type="text"
+                      defaultValue={track.trackName}
+                      onChange={handleTracknameInputChange}
+                    />
+                    <button onClick={() => updateTrackName(track.id)}>
+                      Update name
+                    </button>
+                  </li>
+                  <li>
+                    Tags:
+                    {track.trimmedTags
+                      ? track.trimmedTags.map((tag, index) => (
+                          <span className="tag" key={index}>
+                            {tag}
+                          </span>
+                        ))
+                      : "No tags for this track "}
+                    <input
+                      type="text"
+                      placeholder="Enter comma separated tags"
+                      onChange={handleTrackTags}
+                      value={tags}
+                    />
+                    <button onClick={() => addNewTags(track.id)}>
+                      Add tags
+                    </button>
+                  </li>
+                  <li>Duration: {`${ConvertCecToMin(track.trackDuration)}`}</li>
+                  <li>File Size: {track.fileSize}</li>
+                </ul>
               ))}
-          </div>
-        </div>
-      </div>
-      <div
-        style={
-          location.pathname.includes("tracks")
-            ? { display: "block" }
-            : { display: "none" }
-        }
-      >
-        <UploadModal
-          progress={progress}
-          onChange={onChange}
-          makeFolder={makeFolder}
-          modalStyle={modalStyle}
-          handleTrackUpload={handleTrackUpload}
-          handleTrackTags={handleTrackTags}
-          tags={tags}
-        />
-      </div>
-
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Example Modal"
-      >
-        <h2>Track details</h2>
-        <button onClick={closeModal}>close</button>
-
-        {songs
-          .filter((song) => song.id === songId)
-          .map((track) => (
-            <ul key={track.id}>
-              <li>
-                Name:{" "}
-                <input
-                  type="text"
-                  defaultValue={track.trackName}
-                  onChange={handleTracknameInputChange}
-                />
-                <button onClick={() => updateTrackName(track.id)}>
-                  Update name
-                </button>
-              </li>
-              <li>
-                Tags:
-                {track.trimmedTags
-                  ? track.trimmedTags.map((tag, index) => (
-                      <span className="tag" key={index}>
-                        {tag}
-                      </span>
-                    ))
-                  : "No tags for this track "}
-                <input
-                  type="text"
-                  placeholder="Enter comma separated tags"
-                  onChange={handleTrackTags}
-                  value={tags}
-                />
-                <button onClick={() => addNewTags(track.id)}>Add tags</button>
-              </li>
-              <li>Duration: {`${ConvertCecToMin(track.trackDuration)}`}</li>
-              <li>File Size: {track.fileSize}</li>
-            </ul>
-          ))}
-      </Modal>
+          </Modal>
+        </>
+      )}
     </div>
   );
 }

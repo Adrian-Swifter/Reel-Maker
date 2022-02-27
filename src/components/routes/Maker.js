@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import Tracks from "../routes/Tracks";
 import Modal from "react-modal";
 
@@ -16,7 +17,7 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-function Maker() {
+function Maker({ user }) {
   const [modalIsOpen, setIsOpen] = useState(false);
 
   function openModal() {
@@ -28,17 +29,25 @@ function Maker() {
   }
 
   return (
-    <div className="maker">
-      <h1>Maker</h1>
-      <button onClick={openModal}>Add Tracks</button>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Maker Modal"
-      >
-        <Tracks />
-      </Modal>
+    <div className="maker container">
+      {user ? (
+        <>
+          <h1>Maker</h1>
+          <button onClick={openModal}>Add Tracks</button>
+          <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            style={customStyles}
+            contentLabel="Maker Modal"
+          >
+            <Tracks user={user} />
+          </Modal>
+        </>
+      ) : (
+        <div>
+          Please log in to see this page <Link to="/">Login</Link>
+        </div>
+      )}
     </div>
   );
 }
