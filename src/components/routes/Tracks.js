@@ -24,7 +24,7 @@ Modal.setAppElement("#root");
 
 function Tracks({ user }) {
   const { songs } = useFirestore("songs");
-  let hash = Math.random().toString(36).substring(7);
+  let hash = new Date().getTime().toString();
   const [value, setValue] = useState("Unfiled");
   const [filtered, setFiltered] = useState([]);
   const [progress, setProgress] = useState(0);
