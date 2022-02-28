@@ -52,6 +52,10 @@ img {
   max-width: 100%;
 }
 
+.logo__container {
+  padding: 1rem 0;
+}
+
 .logo__container a {
   text-decoration: none;
 }
@@ -76,8 +80,12 @@ li.list__item:last-child {
   margin-right: inherit;
 }
 
-.list__item:hover {
+li.list__item:hover {
   border-bottom: 2px solid #180018;
+}
+
+li.list__item:last-child:hover {
+  border-bottom: 2px solid transparent;
 }
 
 .list__item a {
@@ -176,10 +184,6 @@ img {
   margin-right: 2em;
   list-style: none;
   border-bottom: 2px solid transparent;
-}
-
-li.list__item:last-child {
-  margin-right: inherit;
 }
 
 .list__item:hover {

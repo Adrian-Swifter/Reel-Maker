@@ -17,7 +17,8 @@ export default function NavigationHeader({ user, logout }) {
           <header className="main__header">
             <div className="logo__container">
               <Link to="/" className="logo">
-                <h1>Reel Maker</h1>
+                <h1 style={{ margin: "0" }}>Reel Maker</h1>
+                <p style={{ margin: "0" }}>{user.email}</p>
               </Link>
             </div>
             <div className="navigation">
@@ -39,15 +40,6 @@ export default function NavigationHeader({ user, logout }) {
                     <Link to="/">
                       {user ? (
                         <div>
-                          <span
-                            style={{
-                              fontSize: "0.7rem",
-                              textTransform: "lowercase",
-                            }}
-                          >
-                            {user.email}
-                          </span>
-
                           <Button
                             buttonName="Logout"
                             buttonIcon="logout"
