@@ -9,6 +9,7 @@ import NotFound from "../components/NotFound";
 import NavigationMenu from "./reelComponents/NavigationMenu";
 import About from "./reelComponents/About";
 import Projects from "./reelComponents/Projects";
+import Button from "../components/Button";
 
 function Reel() {
   const location = useLocation();
@@ -114,7 +115,11 @@ function Reel() {
                 selectedTrack={selectedTrack}
                 setSelectedTrack={setSelectedTrack}
               />
-              <button onClick={() => handleDownload()}>Download Tracks</button>
+              <Button
+                buttonName="Download All Tracks"
+                buttonIcon="download"
+                onClick={() => handleDownload()}
+              />
             </div>
             <About />
           </div>

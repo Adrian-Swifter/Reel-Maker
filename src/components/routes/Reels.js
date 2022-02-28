@@ -3,6 +3,7 @@ import useFirestore from "../../hooks/useFirestore";
 import { Link } from "react-router-dom";
 import { app } from "../../firebase/firebase_storage";
 import ConvertCecToMin from "../../components/utils/ConvertCecToMin";
+import Button from "../../components/Button";
 
 function Reels({ user }) {
   const reels = useFirestore("reels");
@@ -139,20 +140,14 @@ function Reels({ user }) {
                               hash: `#${filtered[index].hash[0]}`,
                             }}
                           >
-                            <button className="mdc-button mdc-button--raised">
-                              <span className="mdc-button__ripple"></span>
-                              <span className="mdc-button__label">Preview</span>
-                            </button>
+                            <Button buttonName="Preview" buttonIcon="preview" />
                           </Link>
-                          <button
+
+                          <Button
+                            buttonName="Add Share Link"
+                            buttonIcon="link"
                             onClick={() => addNewHash(reel.id, index)}
-                            className="mdc-button mdc-button--raised"
-                          >
-                            <span className="mdc-button__ripple"></span>
-                            <span className="mdc-button__label">
-                              Add Share Link
-                            </span>
-                          </button>
+                          />
                         </div>
                         <h3>Share links</h3>
                         <div style={{ cursor: "pointer" }}>

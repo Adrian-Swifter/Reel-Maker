@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Tracks from "../routes/Tracks";
 import Modal from "react-modal";
+import Button from "../../components/Button";
 
 const customStyles = {
   content: {
@@ -33,7 +34,12 @@ function Maker({ user }) {
       {user ? (
         <>
           <h1>Maker</h1>
-          <button onClick={openModal}>Add Tracks</button>
+          <Button
+            buttonName="Add Tracks"
+            buttonIcon="add"
+            onClick={openModal}
+          />
+
           <Modal
             isOpen={modalIsOpen}
             onRequestClose={closeModal}

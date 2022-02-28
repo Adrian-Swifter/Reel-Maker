@@ -364,6 +364,10 @@ li.list__item:last-child {
   justify-content: space-between;
 }
 
+.reels__body a {
+  text-decoration: none;
+}
+
 .active,
 .accordion:hover {
   background-color: #ccc;

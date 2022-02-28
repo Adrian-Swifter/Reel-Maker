@@ -241,7 +241,7 @@ function Tracks({ user }) {
             <Button
               buttonName="Upload Tracks"
               buttonIcon="file_upload"
-              handleModal={handleModal}
+              onClick={handleModal}
             />
           </div>
           <div className="main__container">
@@ -296,7 +296,12 @@ function Tracks({ user }) {
                   type="text"
                   placeholder="Name of the new reel"
                 />
-                <button onClick={addToReels}>Add Tracks To New Reel</button>
+
+                <Button
+                  buttonName="Add Tracks To New Reel"
+                  buttonIcon="add"
+                  onClick={addToReels}
+                />
               </div>
               <div className="track__search_and_kebab_container">
                 <div className="search__input_contaner">
