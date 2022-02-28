@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "../components/Button";
 
 function Login({
   login,
@@ -31,7 +32,8 @@ function Login({
               onChange={(e) => setLoginPassword(e.target.value)}
               value={loginPassword}
             />
-            <button>Login</button>
+
+            <Button buttonName="Login" buttonIcon="login" />
           </form>
         </>
       )}

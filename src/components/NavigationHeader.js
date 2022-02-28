@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import Button from "./Button";
 
 export default function NavigationHeader({ user, logout }) {
   const location = useLocation();
@@ -46,7 +47,12 @@ export default function NavigationHeader({ user, logout }) {
                           >
                             {user.email}
                           </span>
-                          <button onClick={logout}>Sign Out</button>
+
+                          <Button
+                            buttonName="Logout"
+                            buttonIcon="logout"
+                            onClick={logout}
+                          />
                         </div>
                       ) : (
                         "Login"
