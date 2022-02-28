@@ -37,7 +37,7 @@ function Reel() {
     });
     zip.generateAsync({ type: "blob" }).then((zipFile) => {
       const currentDate = new Date().getTime();
-      const fileName = `combined-${currentDate}.zip`;
+      const fileName = `JohnPaesanoReel-${currentDate}.zip`;
       return FileSaver.saveAs(zipFile, fileName);
     });
   };
@@ -114,11 +114,11 @@ function Reel() {
                 selectedTrack={selectedTrack}
                 setSelectedTrack={setSelectedTrack}
               />
+              <button onClick={() => handleDownload()}>Download Tracks</button>
             </div>
             <About />
-            <Projects />
           </div>
-          <button onClick={() => handleDownload()}>Download Tracks</button>
+          <Projects />
         </>
       )}
     </div>

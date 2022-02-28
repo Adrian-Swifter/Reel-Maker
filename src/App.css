@@ -120,6 +120,8 @@ li.list__item:last-child {
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   cursor: pointer;
   padding: 1em;
+  display: flex;
+  justify-content: space-between;
 }
 
 .playlist-item.selected {
@@ -614,9 +616,31 @@ li.list__item:last-child {
 .navigation__reel-wrapper ul li a {
   text-decoration: none;
   text-transform: uppercase;
+  font-weight: bold;
+  color: #1d1d1d;
 }
 
 .reel__logo-container {
   flex: 1;
   padding: 1rem;
+}
+
+.about__wrapper {
+  display: flex;
+}
+
+.about__wrapper > * {
+  flex: 1;
+}
+
+.about__container {
+  padding: 1rem;
+}
+
+.projects__container {
+  display: flex;
+}
+
+.projects__container > * {
+  flex: 1;
 }

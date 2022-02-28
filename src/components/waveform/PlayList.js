@@ -1,4 +1,5 @@
 import React from "react";
+import ConvertCecToMin from "../../components/utils/ConvertCecToMin"
 
 const PlayList = ({ tracks, selectedTrack, setSelectedTrack }) => {
   return (
@@ -13,7 +14,8 @@ const PlayList = ({ tracks, selectedTrack, setSelectedTrack }) => {
           }
           onClick={() => setSelectedTrack(track)}
         >
-          {track.trackName}
+          <span>{track.trackName}</span>
+          <span>{ConvertCecToMin(track.trackDuration)}</span>
         </div>
       ))}
     </div>
