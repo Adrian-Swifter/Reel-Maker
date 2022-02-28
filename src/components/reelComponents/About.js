@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Button from "../../components/Button";
 
 function About(props) {
   return (
@@ -42,14 +43,25 @@ function About(props) {
         </p>
       </div>
 
-      <ul>
-        <li>
-          <Link to="https://open.spotify.com/artist/3MhnTc9AODdRGMrtntEqIz">
-            Spotify
+      <ul style={{ display: "flex" }}>
+        <li style={{ marginRight: "1rem" }}>
+          <Link
+            to={{
+              pathname:
+                "https://open.spotify.com/artist/3MhnTc9AODdRGMrtntEqIz",
+            }}
+            target="_blank"
+          >
+            <Button buttonName="Spotify" buttonIcon="audiotrack" />
           </Link>
         </li>
         <li>
-          <Link to="https://www.imdb.com/name/nm1373352/">Imdb</Link>
+          <Link
+            to={{ pathname: "https://www.imdb.com/name/nm1373352/" }}
+            target="_blank"
+          >
+            <Button buttonName="IMDB" buttonIcon="movie" />
+          </Link>
         </li>
       </ul>
     </div>

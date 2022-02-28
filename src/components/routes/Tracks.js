@@ -413,7 +413,12 @@ function Tracks({ user }) {
             contentLabel="Example Modal"
           >
             <h2>Track details</h2>
-            <button onClick={closeModal}>close</button>
+
+            <Button
+              buttonName="Close Modal"
+              buttonIcon="close"
+              onClick={closeModal}
+            />
 
             {songs
               .filter((song) => song.id === songId)
@@ -426,9 +431,11 @@ function Tracks({ user }) {
                       defaultValue={track.trackName}
                       onChange={handleTracknameInputChange}
                     />
-                    <button onClick={() => updateTrackName(track.id)}>
-                      Update name
-                    </button>
+                    <Button
+                      buttonName="Update Track"
+                      buttonIcon="update"
+                      onClick={() => updateTrackName(track.id)}
+                    />
                   </li>
                   <li>
                     Tags:
@@ -445,9 +452,11 @@ function Tracks({ user }) {
                       onChange={handleTrackTags}
                       value={tags}
                     />
-                    <button onClick={() => addNewTags(track.id)}>
-                      Add tags
-                    </button>
+                    <Button
+                      buttonName="Add tags"
+                      buttonIcon="label"
+                      onClick={() => addNewTags(track.id)}
+                    />
                   </li>
                   <li>Duration: {`${ConvertCecToMin(track.trackDuration)}`}</li>
                   <li>File Size: {track.fileSize}</li>

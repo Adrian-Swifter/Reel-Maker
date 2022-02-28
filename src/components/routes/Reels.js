@@ -20,10 +20,7 @@ function Reels({ user }) {
       .collection("reels")
       .doc(id)
       .update({
-        hash: [
-          ...reels.songs[index].hash,
-          Math.random().toString(36).substring(7),
-        ],
+        hash: [...reels.songs[index].hash, new Date().getTime().toString()],
       });
   };
 

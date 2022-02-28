@@ -10,7 +10,7 @@ function Login({
   loginPassword,
 }) {
   return (
-    <div className="container">
+    <div className="login container">
       {user ? (
         <h1>Home</h1>
       ) : (
