@@ -104,7 +104,7 @@ li.list__item:last-child:hover {
 
 /* WAVEFORM */
 .playBtnWF {
-  background: OrangeRed;
+  background: #03dac5;
   color: white;
   border: none;
   width: 60px;
@@ -113,14 +113,12 @@ li.list__item:last-child:hover {
   outline: none;
   text-transform: uppercase;
   transition: all 0.2s ease;
-}
-
-.playBtnWF:hover {
-  background: #d63d05;
+  cursor: pointer;
 }
 
 .playlist {
   border-top: 1px solid rgba(0, 0, 0, 0.2);
+  margin-bottom: 2rem;
 }
 
 .playlist-item {

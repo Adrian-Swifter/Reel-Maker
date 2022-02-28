@@ -18,7 +18,17 @@ export default function NavigationHeader({ user, logout }) {
             <div className="logo__container">
               <Link to="/" className="logo">
                 <h1 style={{ margin: "0" }}>Reel Maker</h1>
-                <p style={{ margin: "0" }}>{user.email}</p>
+                <p
+                  style={{
+                    margin: "0",
+                    backgroundColor: "white",
+                    color: "black",
+                    padding: "2px",
+                    borderRadius: "2px",
+                  }}
+                >
+                  {user.email}
+                </p>
               </Link>
             </div>
             <div className="navigation">
