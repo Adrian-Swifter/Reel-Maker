@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Button from "../../components/Button";
 
-function About(props) {
+function About() {
   return (
     <div className="about__container">
       <div className="about__description">

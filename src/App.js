@@ -1,12 +1,12 @@
 import { useState } from "react";
 import "./App.css";
-import NavigationHeader from "./components/NavigationHeader";
+import NavigationHeader from "./components/navigation/NavigationHeader";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Maker from "./components/routes/Maker";
 import Reels from "./components/routes/Reels";
 import Tracking from "./components/routes/Tracking";
 import Tracks from "./components/routes/Tracks";
-import Reel from "./components/Reel";
+import Reel from "./components/reel/Reel";
 import NotFound from "./components/NotFound";
 import Login from "./components/Login";
 import { auth } from "./firebase/firebase_storage";

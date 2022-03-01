@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import Waveform from "../components/waveform/Waveform";
-import PlayList from "../components/waveform/PlayList";
-import useFirestore from "../hooks/useFirestore";
+import Waveform from "../waveform/Waveform";
+import PlayList from "../waveform/PlayList";
+import useFirestore from "../../hooks/useFirestore";
 import JsZip from "jszip";
 import FileSaver from "file-saver";
-import NotFound from "../components/NotFound";
-import NavigationMenu from "./reelComponents/NavigationMenu";
-import About from "./reelComponents/About";
-import Projects from "./reelComponents/Projects";
-import Button from "../components/Button";
+import NotFound from "../NotFound";
+import NavigationMenu from "./NavigationMenu";
+import About from "./About";
+import Projects from "./Projects";
+import Button from "../Button";
 
 function Reel() {
   const location = useLocation();
