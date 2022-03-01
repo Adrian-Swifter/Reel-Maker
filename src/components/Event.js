@@ -40,7 +40,6 @@ function Event(props) {
           </div>
         </div>
       </div>
-      
     </div>
   );
 }

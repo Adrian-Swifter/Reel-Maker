@@ -74,6 +74,9 @@ img {
   margin-right: 2em;
   list-style: none;
   border-bottom: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 li.list__item:last-child {

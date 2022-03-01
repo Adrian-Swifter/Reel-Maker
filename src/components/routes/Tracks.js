@@ -41,7 +41,7 @@ function Tracks({ user }) {
   const [trackName, setTrackName] = useState("");
   const [searchText, setSearchText] = useState("");
   const location = useLocation();
-  console.log(location.pathname);
+
   const uniqueSongs = [];
   let tempArr = [];
   let counts = {};

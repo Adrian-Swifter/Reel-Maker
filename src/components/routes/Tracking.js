@@ -52,7 +52,7 @@ function Tracking({ user }) {
     );
     setFiltered(filteredSearchSongs);
   }, [searchText, allEvents.songs]);
-
+  
   return (
     <main className="container reels__body">
       {!user ? (
