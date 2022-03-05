@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import useFirestore from "../../hooks/useFirestore";
 import Event from "../Event";
 import { app } from "../../firebase/firebase_storage";
+import timeAgo from "../utils/timeAgo";
+import filterDatesByOffset from "../utils/filterDatesByOffset";
 
 function Tracking({ user }) {
   const allEvents = useFirestore("events");
@@ -52,7 +54,7 @@ function Tracking({ user }) {
     );
     setFiltered(filteredSearchSongs);
   }, [searchText, allEvents.songs]);
-  
+
   return (
     <main className="container reels__body">
       {!user ? (
@@ -105,11 +107,25 @@ function Tracking({ user }) {
                           </div>
                           <div className="share__link_name">{event.id}</div>
                           <div>
-                            Opens: <span className="num__of_opens">2</span>
+                            Opens:{" "}
+                            <span className="num__of_opens">
+                              {filterDatesByOffset(
+                                event.eventInfo.filter(
+                                  (evt) =>
+                                    evt.eventNameandIcon.name === "Loaded" &&
+                                    event.eventInfo[0].songName === evt.songName
+                                ),
+                                3600000
+                              )}
+                            </span>
                           </div>
                           <div>
-                            Last Actitity:{" "}
-                            <span className="last__activity">2</span> hours ago
+                            Last Activity:{" "}
+                            <span className="last__activity">
+                              {timeAgo(
+                                event.eventInfo[event.eventInfo.length - 1].time
+                              )}
+                            </span>
                           </div>
                         </div>
                         <div className="kebab__menu_container">

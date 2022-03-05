@@ -67,6 +67,7 @@ export default function Waveform({ url, hash, songName, reelName }) {
             {
               eventInfo: firebase.firestore.FieldValue.arrayUnion(eventData),
               createdAt,
+              songName,
             },
             { merge: true }
           );
