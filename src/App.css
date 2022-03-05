@@ -586,6 +586,10 @@ img {
   display: flex;
 }
 
+.event__song {
+  font-weight: bold;
+}
+
 .delete__icon {
   cursor: pointer;
   position: absolute;
