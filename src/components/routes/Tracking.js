@@ -54,7 +54,7 @@ function Tracking({ user }) {
     );
     setFiltered(filteredSearchSongs);
   }, [searchText, allEvents.songs]);
-
+  console.log(allEvents.songs);
   return (
     <main className="container reels__body">
       {!user ? (
@@ -113,7 +113,9 @@ function Tracking({ user }) {
                                 event.eventInfo.filter(
                                   (evt) =>
                                     evt.eventNameandIcon.name === "Loaded" &&
-                                    event.eventInfo[0].songName === evt.songName
+                                    event.eventInfo[0].songName.includes(
+                                      evt.songName
+                                    )
                                 ),
                                 3600000
                               )}
