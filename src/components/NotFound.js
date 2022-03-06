@@ -14,7 +14,7 @@ const NotFound = () => {
   return (
     <div className="not-found">
       <h1>{loaded ? "404 - Not Found!" : "Loading..."}</h1>
-      <Link to="/login">Go Home</Link>
+      <Link to="/">Go Home</Link>
     </div>
   );
 };
