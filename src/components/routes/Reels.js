@@ -14,13 +14,15 @@ function Reels({ user }) {
   const [searchText, setSearchText] = useState("");
   const [filtered, setFiltered] = useState([]);
 
-  const addNewHash = (id, index) => {
+  const addNewHash = (id) => {
+    const currentReel = reels.songs.filter((reel) => reel.id === id);
+
     app
       .firestore()
       .collection("reels")
       .doc(id)
       .update({
-        hash: [...reels.songs[index].hash, new Date().getTime().toString()],
+        hash: [...currentReel[0].hash, new Date().getTime().toString()],
       });
   };
 
@@ -143,7 +145,7 @@ function Reels({ user }) {
                           <Button
                             buttonName="Add Share Link"
                             buttonIcon="link"
-                            onClick={() => addNewHash(reel.id, index)}
+                            onClick={() => addNewHash(reel.id)}
                           />
                         </div>
                         <h3>Share links</h3>
