@@ -130,7 +130,9 @@ function Tracks({ user }) {
       app
         .firestore()
         .collection("reels")
-        .add({ ...[reelSongs], hash: [hash], reelName, createdAt });
+        .add({ ...[reelSongs], hash: [hash], reelName, createdAt })
+        .then(() => alert(`Reel ${reelName} successfully created`))
+        .catch((err) => alert(`Error when creating reel: ${err}`));
       setReelSongs([]);
       setReelName("");
     } else if (reelName === "") {
@@ -190,6 +192,7 @@ function Tracks({ user }) {
       },
       (error) => {
         setError(error);
+        alert(error.message);
       },
       async () => {
         const url = await fileRef.getDownloadURL();
@@ -215,6 +218,7 @@ function Tracks({ user }) {
 
         setUrl(url);
         setTags("");
+        alert("File uploaded successfully.");
       }
     );
   };
